@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -38,12 +38,151 @@
 			<div class="slides">
 
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>HTML Presentations Made Easy</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
+					<h1>win win</h1>
+					<h2>communication</h2>
 				</section>
+
+
+				<!--section>
+					<h1>Javascript</h1>
+					<h2>The in-between parts</h2>
+				</section-->
+
+
+				<section>
+					<h2>Broad overview</h2>
+					<p><em>[images: iframe / local / remote / super-remote]</em></p>
+
+					<aside class="notes">
+						Stuff linked to this slide.  [power animal]
+						<img src="http://placekitten.com/g/100/100" />
+					</aside>
+
+				</section>
+
+				<section>
+					<h2>Follow along</h2>
+
+					<h3>[nice to have]</h3>
+
+				</section>
+
+
+
+
+				<section>
+					<h2>Physical things</h2>
+
+					<p>[image of people sharing things?]</p>
+
+					<p>[twon video (external!?)]</p>
+
+				</section>
+
+
+
+				<section>
+					<section>
+						<h1>postMessage</h1>
+
+						<p>[image : iframe &amp; window.opener]</p>
+
+						<h3>Seems boring; is super-handy</h3>
+					</section>
+
+
+					<section>
+						<h2>Superbasic?!</h2>
+
+						<ul>
+							<li>window.top</li>
+							<li>isn't cross origin</li>
+						</ul>
+
+					</section>
+
+
+					<section>
+						<h2>Stuff</h2>
+
+						<ul>
+							<li>need a reference to the window</li>
+							<li>can be cross origin</li>
+						</ul>
+
+					</section>
+
+					<section>
+						<h2>Posting messages</h2>
+						<pre><code>
+var myframe = $("#my-frame")[0];
+myframe.postMessage("Howdy", "*");
+
+var mywin = window.open("http://benjaminbenben.com/exmple.html");
+//...
+mywin.postMessage("Howdy", "*");
+
+</code></pre>
+					</section>
+
+
+					<section>
+						<h2>Listening</h2>
+						<pre><code>
+window.addEventListener("message", function(e){
+	alert(e.data); // "Howdy"
+}, false);
+
+</code></pre>
+
+					</section>
+
+
+					<section>
+						<h2>Compatibility</h2>
+
+						<p>pretty good</p>
+
+						<p><a href="http://benalman.com/projects/jquery-postmessage-plugin/">
+							polyfill</a></p>
+
+					</section>
+
+				</section>
+
+
+
+
+
+				<section>
+					<section>
+						<h1>Local windows</h1>
+
+						<p>[image : windows side by side]</p>
+					</section>
+
+					<section>
+						<h2>Polling localStorage</h2>
+					</section>
+
+					<section>
+						<h2>Polling cookies</h2>
+						<p>Doesn't actually work?</p>
+					</section>
+
+
+					<section>
+						<h2>Shared Web Worker</h2>
+					</section>
+				</section>
+
+
+
+
+
+
+
+
 
 				<section>
 					<h2>Heads Up</h2>
