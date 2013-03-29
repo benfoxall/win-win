@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>Shared Web Worker</title>
+    <script type="text/javascript">
+        var worker = new SharedWorker("shared.js");
+
+        worker.port.addEventListener('message', function(e){
+            // console.log("Got message", e.data);
+        }, false);
+        worker.port.start();
+        
+
+        function broadcast(message){
+            worker.port.postMessage(message);
+        }
+
+    </script>
+</head>
+<body>
+<canvas id="c" width="400" height="400"></canvas>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+
+var ctx = document.getElementById('c').getContext('2d');
+ctx.lineWidth = 3;
+
+function draw(line, stroke){
+    ctx.strokeStyle = stroke;
+    ctx.beginPath();
+    ctx.moveTo(line[0],line[1]);
+    ctx.lineTo(line[2],line[3])
+    ctx.stroke();
+}
+
+var last, down;
+$(document).on('mousedown',function(){
+    down = true;
+}).on('mouseup', function(){
+    down = false;
+});
+
+
+$('#c').on('mousemove', function(e){
+    if(last && down){
+        var l = [last.pageX,last.pageY,e.pageX,e.pageY];
+        draw(l, '#000');
+        broadcast(l)
+    }
+    last = e;
+});
+
+worker.port.addEventListener('message', function(e){
+    draw(e.data, '#aaa');
+}, false);
+
+</script>
+</body>
+</html>
