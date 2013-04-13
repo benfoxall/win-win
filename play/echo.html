@@ -1,0 +1,14 @@
+<html>
+<head>
+	<title>Echo</title>
+
+	<script type="text/javascript">
+		window.addEventListener('message', function(e){
+			document.getElementById('echo').innerText = e.data;
+		}, false);
+	</script>
+</head>
+<body>
+	<h1 id="echo"></h1>
+</body>
+</html>
