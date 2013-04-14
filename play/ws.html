@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>Websockets</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+if(typeof(WebSocket) === 'function'){
+
+	var ws = new WebSocket('ws://localhost:8080/');
+
+	ws.onmessage = function(event){
+		console.log("AWESOME", event.data);
+	}
+
+	// ws.send("Hello");
+
+}
+</script>
+</body>
+</html>
