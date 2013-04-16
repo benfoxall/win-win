@@ -1,0 +1,202 @@
+<html>
+<head>
+    <title>Binaryjs</title>
+</head>
+<body>
+
+<input id="photo" type="file" accept="image/*" capture="camera" />
+<p id="dev"></p>
+
+<script src="http://cdn.binaryjs.com/0/binary.js"></script>
+
+<script type="text/javascript">
+
+
+var client = BinaryClient('ws://'+document.location.host+':9000');
+
+// client.on('open', function(stream){
+//   var stream = client.createStream({file: 'hello.txt'});
+//   stream.write('Hello');
+//   stream.write('World!');
+//   stream.end();
+// });
+
+
+photo.addEventListener('change', function(event){
+    var file = event.target.files[0];
+
+    var stream = client.send(file, {name: file.name, size: file.size});
+
+    var tx = 0;
+    stream.on('data', function(data){
+      dev.innerText  = Math.round(tx+=data.rx*100) + '% complete';
+    });
+/*
+    console.log(event.target.files);
+
+    // if (ws && ws.readyState === 1) 
+    //         ws.send(file);
+
+    var reader = new FileReader();
+
+    reader.onload = function(e){
+        gr = e.target.result;
+
+        // alert("decoded!");
+
+        // alert(gr);
+
+        if (ws && ws.readyState === 1) 
+            ws.send(gr);//.slice(0,500000));
+    };
+
+    // (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+
+    reader.readAsDataURL(file);
+
+*/
+}, false);
+
+
+// take a picture,  call back with someImageData
+function snap(callback){
+/*
+    video.
+
+    navigator.webkitGetUserMedia({video:true}, function(stream){
+        var video = document.createElement('video');
+        video.autoplay = 'autoplay'
+
+        gs = stream
+        video.src = webkitURL.createObjectURL(stream);
+        video.play();
+
+        video.addEventListener('canplay', function(ev){
+
+            setTimeout(function(){
+
+                var h = video.videoHeight;
+                var w = video.videoWidth;
+
+                var canvas = document.createElement('canvas');
+                canvas.height = h;
+                canvas.width = w;
+
+
+                canvas.getContext("2d").drawImage(video, 0, 0);
+
+
+                console.log("CANPLAY");
+
+                setTimeout(function(){
+
+                stream.stop();
+                },1000)
+
+            },3000);
+
+        }, false);
+
+
+    });
+*/
+}
+
+/*
+// var video = document.getElementById('v');
+var canvas = document.getElementById("c");
+
+navigator.webkitGetUserMedia({video:true}, function(stream){
+    var video = document.createElement('video');
+    video.autoplay = 'autoplay'
+
+    gs = stream
+    video.src = webkitURL.createObjectURL(stream);
+    video.play();
+
+    video.addEventListener('canplay', function(ev){
+
+        setTimeout(function(){
+
+            var h = video.videoHeight;
+            var w = video.videoWidth;
+
+            // var canvas = document.createElement('canvas');
+            canvas.height = h;
+            canvas.width = w;
+
+            canvas.getContext("2d").drawImage(video, 0, 0);
+
+            console.log("CANPLAY");
+
+            stream.stop();
+
+        },300);
+
+    }, false);
+
+
+
+});
+
+
+    var ws = new WebSocket('ws://'+document.location.host+':8080/','echo-protocol');
+    ws.onmessage = function(event){
+        // nothing
+    };
+    ws.onopen = function (event) {
+        ws.send("b");
+    };
+
+    function send_point(x,y){
+        var str = JSON.stringify({x:x,y:y});
+        document.getElementsByTagName('h1')[0].innerText = str;
+        if (ws && ws.readyState === 1) 
+                ws.send(str);
+    }
+
+
+    document.body.addEventListener('touchmove',function(event){
+        event.preventDefault();
+
+        var touches=event.touches;
+        var str = touches.length + ws.readyState;
+
+        document.getElementsByTagName('h1')[0].innerText = str;
+
+        for (var i=0; i<touches.length; i++) {
+
+            send_point(touches[i].pageX,touches[i].pageY);
+
+        }
+
+    },false);
+
+
+    document.body.addEventListener('touchstart',function(event){
+        event.preventDefault();
+
+        var touches=event.touches;
+        var str = touches.length + ws.readyState;
+
+        document.getElementsByTagName('h1')[0].innerText = str;
+
+        for (var i=0; i<touches.length; i++) {
+
+            send_point(touches[i].pageX,touches[i].pageY);
+
+        }
+
+    },false);
+
+
+    // stop dragging to scroll
+    canvas.addEventListener("touchmove", function(event){
+        event.preventDefault();
+    }, false);
+
+/**/
+
+</script>
+</body>
+</html>
