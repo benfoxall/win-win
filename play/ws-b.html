@@ -1,0 +1,153 @@
+<html>
+<head>
+	<title>Websockets</title>
+	<style type="text/css">
+	canvas{
+		width:100%;height:100%;
+		background: #f08
+	}
+	</style>
+</head>
+<body>
+	<h1>ws-b</h1>
+
+	<canvas></canvas>
+
+
+<script type="text/javascript">
+
+if(typeof(WebSocket) === 'function'){
+
+
+
+	var ws = new WebSocket('ws://'+document.location.host+':8080/','echo-protocol');
+	ws.onmessage = function(event){
+		console.log("AWESOME", event.data);
+	};
+	ws.onopen = function (event) {
+		ws.send("b");
+	};
+
+	document.body.addEventListener('touchmove',function(event){
+        event.preventDefault();
+
+		var touches=event.touches;
+
+
+			var str = touches.length + ws.readyState;
+		    	document.getElementsByTagName('h1')[0].innerText = str;
+
+		 // var ctx = canvas.getContext('2d');
+
+		for (var i=0; i<touches.length; i++) {
+		    // ctx.fillStyle = '#000';
+		    // ctx.fillRect(touches[i].pageX-2, touches[i].pageY-2, 4, 4); 
+
+			var str = JSON.stringify({x:touches[i].pageX,y:touches[i].pageY});
+		    	document.getElementsByTagName('h1')[0].innerText = str;
+
+	    	if (ws && ws.readyState === 1) 
+	    		// for(var i = 0; i < 1000; i++){
+	    			ws.send(str);
+	    		// }
+	    		
+			    	
+		}
+
+
+    },false);   // end body.onTouchMove
+
+
+	canvas.addEventListener("touchmove", function(event){
+		event.preventDefault();
+		// alert('[')
+		// event.touches[i].pageX
+// 		var touches=event.touches;
+
+// 		for (var i=0; i<touches.length; i++) {
+// 		    ongoingTouches.push(touches[i]);
+// 		    var color = colorForTouch(touches[i]);
+// 		    ctx.fillStyle = color;
+// 		    ctx.fillRect(touches[i].pageX-2, touches[i].pageY-2, 4, 4); 
+
+// var str = JSON.stringify({x:touches[i].pageX,y:touches[i].pageY});
+// 		    	document.getElementsByTagName('h1')[0].innerText = str;
+
+// 		    if(ws.readyState === 1){
+		    	
+// 		    	ws.send(str);
+// 		    }
+// 		}
+
+	}, false);
+
+
+
+
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last,
+      deferTimer;
+  return function () {
+    var context = scope || this;
+  
+    var now = +new Date,
+        args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+}
+
+// if (!window.DeviceMotionEvent) {
+//   alert("DeviceMotionEvent NOT supported");
+// } 
+// let message feed through every 200ms if there's a high number
+// window.addEventListener('devicemotion', function (event) {
+//   if (ws && ws.readyState === 1) ws.send(JSON.stringify({
+//   	type: event.type, 
+//   	data: { 
+//   		accelerationIncludingGravity: {
+//   			x: event.accelerationIncludingGravity.x, 
+//   			y: event.accelerationIncludingGravity.y,
+//   			z: event.accelerationIncludingGravity.z
+//   		}
+//   	}
+//   }
+//  ));
+
+//   	document.getElementsByTagName('h1')[0].innerText =JSON.stringify({
+//   	type: event.type, 
+//   	data: { 
+//   		accelerationIncludingGravity: {
+//   			x: event.accelerationIncludingGravity.x, 
+//   			y: event.accelerationIncludingGravity.y,
+//   			z: event.accelerationIncludingGravity.z
+//   		}
+//   	}
+//   }
+//  )
+// }, false);
+
+// window.addEventListener('deviceorientation', function (event) {
+//   if (ws && ws.readyState === 1) 
+//   	ws.send(JSON.stringify({ type: event.type, data: { alpha: event.alpha, beta: event.beta, gamma: event.gamma }}));
+
+//   document.getElementsByTagName('h1')[0].innerText = JSON.stringify({ type: event.type, data: { alpha: event.alpha, beta: event.beta, gamma: event.gamma }});
+// }, false);
+
+
+	
+
+}
+</script>
+</body>
+</html>

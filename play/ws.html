@@ -1,20 +1,95 @@
 <html>
 <head>
 	<title>Websockets</title>
+
+	<style type="text/css">
+		#n4{
+			background-image:url(n4.png);
+			height:496px;
+			width:262px;
+			-webkit-transform-style: preserve-3d;
+		    -webkit-transition: -webkit-transform 500ms;
+		}
+		#n4 span{
+			/*display: block;
+			border:4px solid red;
+			width:100px;
+			height:10px;
+			-webkit-transform: translate3d(130px,240px,20px) rotateY(270deg);*/
+			/*-webkit-transform:translate(0,50px) rotateZ(20deg);*/
+			/*-webkit-transform-style: preserve-3d;*/
+
+		}
+	</style>
 </head>
 <body>
 
 
+	<div id="n4"><span></span></div>
+
+	<p id="dev"></p>
+
 <script type="text/javascript">
+
 if(typeof(WebSocket) === 'function'){
 
-	var ws = new WebSocket('ws://localhost:8080/');
+	var a=0,b=0,g=0;
 
+	var matrix = new WebKitCSSMatrix();
+
+	var ws = new WebSocket('ws://localhost:8080/','echo-protocol');
 	ws.onmessage = function(event){
-		console.log("AWESOME", event.data);
-	}
+		// console.log("AWESOME", event.data);
 
-	// ws.send("Hello");
+		document.getElementById('dev').innerText = event.data;
+
+
+		var js = JSON.parse(event.data).data;
+
+		// b = (b*5 + js.beta)/2
+
+
+		n4.style.webkitTransform = matrix.rotate(js.beta,-js.gamma,0,0);
+		// console.log(js);
+		// deviceMotionHandler(js);
+	};
+	ws.onopen = function (event) {
+		ws.send("a");
+	};
+
+	
+
+
+function deviceMotionHandler(eventData) {
+  // Grab the acceleration including gravity from the results
+  var acceleration = eventData.accelerationIncludingGravity;
+
+  // Display the raw acceleration data
+  var rawAcceleration = "[" +  Math.round(acceleration.x) + ", " + 
+    Math.round(acceleration.y) + ", " + Math.round(acceleration.z) + "]";
+
+  // Z is the acceleration in the Z axis, and if the device is facing up or down
+  var facingUp = -1;
+  if (acceleration.z > 0) {
+    facingUp = +1;
+  }
+  
+  // Convert the value from acceleration to degrees acceleration.x|y is the 
+  // acceleration according to gravity, we'll assume we're on Earth and divide 
+  // by 9.81 (earth gravity) to get a percentage value, and then multiply that 
+  // by 90 to convert to degrees.                                
+  var tiltLR = Math.round(((acceleration.x) / 9.81) * -90);
+  var tiltFB = Math.round(((acceleration.y + 9.81) / 9.81) * 90 * facingUp);
+
+  // Display the acceleration and calculated values
+  // document.getElementById("moAccel").innerHTML = rawAcceleration;
+  // document.getElementById("moCalcTiltLR").innerHTML = tiltLR;
+  // document.getElementById("moCalcTiltFB").innerHTML = tiltFB;
+
+  // Apply the 2D rotation and 3D rotation to the image
+  var rotation = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB) + "deg)";
+  document.getElementById("n4").style.webkitTransform = rotation;        
+}
 
 }
 </script>

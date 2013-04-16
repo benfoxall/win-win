@@ -1,6 +1,5 @@
 // basic websocket server that echos 
 
-//#!/usr/bin/env node
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
@@ -13,7 +12,7 @@ server.listen(8080, function() {
     console.log((new Date()) + ' Server is listening on port 8080');
 });
 
-wsServer = new WebSocketServer({
+var wsServer = new WebSocketServer({
     httpServer: server,
     // You should not use autoAcceptConnections for production
     // applications, as it defeats all standard cross-origin protection
@@ -28,7 +27,13 @@ function originIsAllowed(origin) {
   return true;
 }
 
+// this allows communication between a and b
+var a,b;
+
 wsServer.on('request', function(request) {
+
+	console.log("origin", request.origin);
+
     if (!originIsAllowed(request.origin)) {
       // Make sure we only accept requests from an allowed origin
       request.reject();
@@ -37,18 +42,43 @@ wsServer.on('request', function(request) {
     }
 
     var connection = request.accept('echo-protocol', request.origin);
+
     console.log((new Date()) + ' Connection accepted.');
+
+    
+    var end;
+
     connection.on('message', function(message) {
-        if (message.type === 'utf8') {
+
+
             console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+            
+    	if (message.type === 'utf8' && !end){
+    		end = message.utf8Data;
+    		if(end === 'a'){
+    			a = connection;
+    		}
+    		else if(end === 'b'){
+    			b = connection;
+    		}
+    	}
+        else if (message.type === 'utf8') {
+            console.log('Received Message: ' + message.utf8Data);
+            if(end === 'a' && b){
+            	b.sendUTF(message.utf8Data);
+            }
+            if(end === 'b' && a) {
+            	a.sendUTF(message.utf8Data);
+            }
         }
         else if (message.type === 'binary') {
             console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
             connection.sendBytes(message.binaryData);
         }
     });
+
     connection.on('close', function(reasonCode, description) {
+    	// delete channels[channel][id];
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
