@@ -61,7 +61,7 @@ Structure
 	-? image of TWon?
 	- so (diagram) - we've got a webserver and two clients, they both request a page,  then the state changes, so we push it up in a request.  But how does it come back down?
 	- there are a few ways to do this xhr polling, longpolling, sse, websockets
-
+	- the pretty mental way of doing this is websockets
 
 
 

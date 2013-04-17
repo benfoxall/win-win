@@ -1,5 +1,42 @@
 @charset "UTF-8";
 
+/* custom hacks */
+
+#n4{
+	position: absolute;
+	background-image:url(../img/n4.png);
+	height:496px;
+	width:262px;
+
+	/* center */
+	z-index: 100;
+	left: 50%;
+	margin-left: -131px;
+	top: 50%;
+	margin-top: -248px;
+}
+#n4 canvas{
+	background-color: #f4f4f4;
+	width: 216px;
+	height: 362px;
+	margin-top: 64px;
+	margin-left: 21px;
+}
+
+
+#n4 {
+	/*display: none;*/
+	opacity: 0;
+	/*-webkit-transition: all 2s ease;*/
+}
+.whiteout #n4 {
+	/*-webkit-transition-delay:3s;*/
+	-webkit-transition: all 2s ease;
+	opacity: 1
+}
+
+
+
 /*!
  * reveal.js
  * http://lab.hakim.se/reveal-js
@@ -1189,6 +1226,16 @@ body {
 }
 .blackout .reveal .state-background {
 	background: rgba( 0, 0, 0, 0.6 );
+}
+.whiteout .reveal .state-background {
+	background: #fff;
+}
+
+.reveal .controls{
+	-webkit-transition:opacity .25s ease;
+}
+.whiteout .reveal .controls{
+	opacity: 0
 }
 
 
