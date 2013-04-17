@@ -32,77 +32,6 @@
 
 	<body>
 
-		<div id="n4"><canvas width="216" height="362"></canvas></div>
-
-
-		<style type="text/css">
-		#connection-status-socketio,
-		#connection-status-binary{
-			height:2px;
-			width:50%;
-			position: fixed;
-			background: #c00;
-			top:0;
-			z-index: 10;
-		}
-		#connection-status-binary{
-			right:0;
-		}
-
-		#connection-status-socketio.ok,
-		#connection-status-binary.ok{
-			background: #3b759e;
-		}
-		</style>
-		<div id="connection-status-socketio"></div>
-		<div id="connection-status-binary"></div>
-
-		
-
-
-	    <script type="text/javascript" src="http://x.ben.dev:3000/libs.js"></script>
-	    <script type="text/javascript">
-
-	        var shoutHostname = 'x.ben.dev';
-
-	        var streams = {
-	            socketio:io.connect('http://' + shoutHostname + ':3001'),
-	            binary:BinaryClient('ws://'+shoutHostname+':3002')
-	        };
-
-
-			// show status
-	        
-			var statusses = {
-	            socketio:document.getElementById('connection-status-socketio'),
-	            binary:document.getElementById('connection-status-binary')
-	        };
-	        
-
-	        streams.binary.on('close', function(){
-	        	statusses.binary.className='';
-	        });
-	        streams.binary.on('open', function(){
-	        	statusses.binary.className='ok';
-	        });
-
-
-	        streams.socketio.on('disconnect', function(){
-	        	statusses.socketio.className='';
-	        });
-	        streams.socketio.on('connect', function(){
-	        	statusses.socketio.className='ok';
-	        });
-
-	        
-
-	    </script>
-
-
-
-
-
-
 
 		<div class="reveal">
 
@@ -259,8 +188,12 @@ window.addEventListener("message", function(e){
 						<p>[server, with two clients]</p>
 					</section>
 
-					<section data-state="whiteout">
+					<section data-state="demo-1">
 						<h2>Demo</h2>
+					</section>
+
+					<section data-state="demo-2">
+						<h2>Demo2</h2>
 					</section>
 
 				</section>
@@ -567,6 +500,111 @@ function linkify( selector ) {
 			});
 
 		</script>
+
+
+
+
+
+
+
+
+
+
+
+		<style type="text/css">
+		#connection-status-socketio,
+		#connection-status-binary{
+			height:2px; width:50%; position: fixed;
+			background: #c00; top:0; z-index: 10; }
+		#connection-status-binary{right:0;}
+		#connection-status-socketio.ok,
+		#connection-status-binary.ok{background: #3b759e;}
+		</style>
+		<div id="connection-status-socketio"></div><div id="connection-status-binary"></div>
+
+	    <script type="text/javascript" src="http://x.ben.dev:3000/libs.js"></script>
+	    <script type="text/javascript">
+	        var shoutHostname = 'x.ben.dev';
+
+	        var streams = {
+	            socketio:io.connect('http://' + shoutHostname + ':3001'),
+	            binary:BinaryClient('ws://'+shoutHostname+':3002')
+	        };
+
+			// show status	        
+			var statusses = {
+	            socketio:document.getElementById('connection-status-socketio'),
+	            binary:document.getElementById('connection-status-binary')
+	        };
+
+	        streams.binary.on('close', function(){
+	        	statusses.binary.className='';
+	        });
+	        streams.binary.on('open', function(){
+	        	statusses.binary.className='ok';
+	        });
+
+	        streams.socketio.on('disconnect', function(){
+	        	statusses.socketio.className='';
+	        });
+	        streams.socketio.on('connect', function(){
+	        	statusses.socketio.className='ok';
+	        });
+	    </script>
+
+
+
+
+
+		<div id="n4"><canvas width="216" height="362"></canvas></div>
+
+	    <script type="text/javascript">
+	    	// display content things
+
+	    	function activeSlide(key){
+	    		// .contains, but whatever
+	    		return document.getElementsByTagName('html')[0].className.indexOf(key) != -1;
+	    	}
+
+
+
+	    	var n4 = document.getElementById('n4');
+			var canvas = n4.childNodes[0];
+			var ctx = canvas.getContext('2d');
+
+	    	streams.socketio.on('message', function (message, callback) {
+
+		    	if(activeSlide('demo-1')){
+
+		    		console.log("OKAYE", message);
+
+		    		n4.className = 'active';
+
+
+					var js = JSON.parse(message);
+					ctx.beginPath();
+					ctx.arc(js.x/4.5,js.y/4,10,0,6)
+					ctx.fill();
+
+		    	}
+
+	    	});
+
+
+	    	// clean up our stuff
+	    	Reveal.addEventListener( 'slidechanged', function() {
+
+	    		// remove the classname
+	    		n4.className = '';
+			});
+
+
+	    </script>
+
+
+
+
+
 
 	</body>
 </html>

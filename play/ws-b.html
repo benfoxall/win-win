@@ -7,7 +7,7 @@
     }
 	canvas{
 		width:100%;height:100%;
-		background: #f08
+		background: #ccc
 	}
     h1{
         position: fixed;
@@ -17,56 +17,94 @@
 <body>
 	<h1>ws-b</h1>
 	<canvas></canvas>
+
+
+
+    <style type="text/css">
+    #connection-status-socketio,
+    #connection-status-binary{
+        height:2px; width:50%; position: fixed;
+        background: #c00; top:0; z-index: 10; }
+    #connection-status-binary{right:0;}
+    #connection-status-socketio.ok,
+    #connection-status-binary.ok{background: #3b759e;}
+    </style>
+    <div id="connection-status-socketio"></div><div id="connection-status-binary"></div>
+
+    <script type="text/javascript" src="http://x.ben.dev:3000/libs.js"></script>
+    <script type="text/javascript">
+        var shoutHostname = 'x.ben.dev';
+
+        var streams = {
+            socketio:io.connect('http://' + shoutHostname + ':3001'),
+            binary:BinaryClient('ws://'+shoutHostname+':3002')
+        };
+
+        // show status          
+        var statusses = {
+            socketio:document.getElementById('connection-status-socketio'),
+            binary:document.getElementById('connection-status-binary')
+        };
+
+        streams.binary.on('close', function(){
+            statusses.binary.className='';
+        });
+        streams.binary.on('open', function(){
+            statusses.binary.className='ok';
+        });
+
+        streams.socketio.on('disconnect', function(){
+            statusses.socketio.className='';
+        });
+        streams.socketio.on('connect', function(){
+            statusses.socketio.className='ok';
+        });
+    </script>
+
+
+
+
+
+
+
 <script type="text/javascript">
 
 
-	var ws = new WebSocket('ws://'+document.location.host+':8080/','echo-protocol');
-	ws.onmessage = function(event){
-        // nothing
-	};
-	ws.onopen = function (event) {
-		ws.send("b");
-	};
+    var canvas = document.getElementsByTagName('canvas')[0];
+    var ctx = canvas.getContext('2d');
 
     function send_point(x,y){
+
         var str = JSON.stringify({x:x,y:y});
         document.getElementsByTagName('h1')[0].innerText = str;
-        if (ws && ws.readyState === 1) 
-                ws.send(str);
+
+        streams.socketio.send(str);
+
+        ctx.beginPath();
+        ctx.arc(x,y,10,0,6)
+        ctx.fill();
+
+
     }
+
+    streams.socketio.send("{}");
 
 
     document.body.addEventListener('touchmove',function(event){
         event.preventDefault();
-
         var touches=event.touches;
-        var str = touches.length + ws.readyState;
-
-        document.getElementsByTagName('h1')[0].innerText = str;
-
         for (var i=0; i<touches.length; i++) {
-
             send_point(touches[i].pageX,touches[i].pageY);
-
         }
-
     },false);
 
 
     document.body.addEventListener('touchstart',function(event){
         event.preventDefault();
-
         var touches=event.touches;
-        var str = touches.length + ws.readyState;
-
-        document.getElementsByTagName('h1')[0].innerText = str;
-
         for (var i=0; i<touches.length; i++) {
-
             send_point(touches[i].pageX,touches[i].pageY);
-
         }
-
     },false);
 
 
