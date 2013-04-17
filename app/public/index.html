@@ -1,0 +1,94 @@
+<html>
+<head>
+    <title>bbb present app</title>
+    <style type="text/css">
+        body{
+            font-family: sans-serif;
+        }
+        a{
+            color:#08f;
+        }
+        img{
+            max-width: 50%
+        }
+    </style>
+</head>
+<body>
+
+    <input id="photo" type="file" accept="image/*" capture="camera" />
+<p id="dev"></p>
+
+    <script type="text/javascript" src="libs.js"></script>
+
+
+    <script type="text/javascript">
+        var shoutHost = document.location.hostname;//'localhost';
+    </script>
+
+
+
+    <script>
+      var socketio = io.connect('http://' + shoutHost + ':3001');
+
+      socketio.on('message', function(m){
+        console.log("MESSAGE", m);
+      })
+
+      setTimeout(function(){
+        socketio.send("This should go everywhere")
+      });
+    </script>
+
+
+
+<script type="text/javascript">
+
+var binaryclient = BinaryClient('ws://'+shoutHost+':3002');
+
+photo.addEventListener('change', function(event){
+    var file = event.target.files[0];
+    var stream = binaryclient.send(file, {name: file.name, size: file.size});
+    console.log("send")
+}, false);
+
+
+binaryclient.on('open', function(){
+    console.log('open');
+    // binaryclient.send("hello",{meta:'the fuck'});
+});
+binaryclient.on('error', function(){
+    console.log('error')
+});
+binaryclient.on('connection', function(){
+    console.log('connection')
+});
+binaryclient.on('data', function(){
+    console.log('DATA')
+});
+
+binaryclient.on('stream', function(e){
+    g = e;
+    console.log('stream')
+
+    var parts = [];
+
+    e.on('data', function(d){
+        parts.push(d);
+        console.log('DATA',d)
+    });
+
+    e.on('end', function(d){
+        // console.log('EMDED',d)
+         var img = document.createElement("img");
+        img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+        document.body.appendChild(img);
+
+    });
+});
+
+
+
+</script>
+    <h1>Shouter</h1>
+</body>
+</html>
