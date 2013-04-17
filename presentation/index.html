@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Win-win messages</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -555,7 +555,7 @@ function linkify( selector ) {
 
 
 
-
+	    <div id="image-show"></div>
 		<div id="n4"><canvas width="216" height="362"></canvas></div>
 
 	    <script type="text/javascript">
@@ -568,6 +568,7 @@ function linkify( selector ) {
 
 
 
+	    	var ishow = document.getElementById('image-show');
 	    	var n4 = document.getElementById('n4');
 			var canvas = n4.childNodes[0];
 			var ctx = canvas.getContext('2d');
@@ -576,26 +577,61 @@ function linkify( selector ) {
 
 		    	if(activeSlide('demo-1')){
 
-		    		console.log("OKAYE", message);
 
-		    		n4.className = 'active';
+
+		    		console.log("OKAYE", message);
 
 
 					var js = JSON.parse(message);
-					ctx.beginPath();
-					ctx.arc(js.x/4.5,js.y/4,10,0,6)
-					ctx.fill();
+
+					if(typeof(js.x) === 'undefined'){
+
+						n4.className = 'active';
+						ctx.fillStyle = '#f5f5f5';
+						ctx.fillRect(0,0,canvas.width,canvas.height)
+
+					} else {
+
+		    			console.log("OKAYE", message);
+
+						ctx.fillStyle = '#000000';
+						ctx.beginPath();
+						ctx.arc(js.x/4.5,js.y/4,10,0,6)
+						ctx.fill();
+
+					}
+
 
 		    	}
 
 	    	});
 
+			streams.binary.on('stream', function(e){
+
+
+				var parts = [];
+				e.on('data', function(d){
+						parts.push(d);
+				});
+				e.on('end', function(d){
+				// console.log('EMDED',d)
+					var img = document.createElement("img");
+					img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+					ishow.innerHTML = '';
+					ishow.appendChild(img);
+					ishow.className = 'active'
+				});
+
+
+				// console.log("STREAM");
+	        });
+
 
 	    	// clean up our stuff
 	    	Reveal.addEventListener( 'slidechanged', function() {
-
 	    		// remove the classname
 	    		n4.className = '';
+	    		ishow.className = ''
 			});
 
 
