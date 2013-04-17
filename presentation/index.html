@@ -201,6 +201,35 @@ window.addEventListener("message", function(e){
 
 
 
+				<section>
+					<section>
+						<h1>Good Stuff</h1>
+						<p></p>
+					</section>
+
+					<section>
+						<h1>WebRTC</h1>
+						<h2>…Great stuff!</h2>
+						<ul>
+							<li>MediaStream</li>
+							<li>RTCPeerConnection</li>
+							<li>RTCDataChannel</li>
+						</ul>
+					</section>
+
+					<section data-state="demo-1">
+						<h2>Demo</h2>
+					</section>
+
+					<section data-state="demo-2">
+						<h2>Demo2</h2>
+					</section>
+
+				</section>
+
+
+
+
 
 
 
@@ -614,11 +643,8 @@ function linkify( selector ) {
 						parts.push(d);
 				});
 				e.on('end', function(d){
-				// console.log('EMDED',d)
-					var img = document.createElement("img");
-					img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-					ishow.innerHTML = '';
-					ishow.appendChild(img);
+					var src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+					ishow.style.backgroundImage = 'url(' + src + ')';
 					ishow.className = 'active'
 				});
 
@@ -632,6 +658,7 @@ function linkify( selector ) {
 	    		// remove the classname
 	    		n4.className = '';
 	    		ishow.className = ''
+	    		ishow.style.backgroundImage = '';
 			});
 
 

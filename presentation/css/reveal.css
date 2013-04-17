@@ -45,13 +45,17 @@
 	text-align: center;
 	/*display:none;*/
 
+	/*background: url(blob:http%3A//win-win.sites.ben.dev/eec09f72-7e36-4513-8611-25757a9ce5aa);*/
+	background-size: cover;
+
+
 	opacity: 0;
 	-webkit-transition: all 2s ease;
 }
 
 #image-show.active{
 	display:block;
-	
+
 	opacity: 1
 }
 
