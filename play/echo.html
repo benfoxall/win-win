@@ -3,9 +3,9 @@
 	<title>Echo</title>
 
 	<script type="text/javascript">
-		window.addEventListener('message', function(e){
-			document.getElementById('echo').innerText = e.data;
-		}, false);
+    $(window).on('message', function(e){
+        $('#echo').text(e.data);
+    })
 	</script>
 </head>
 <body>

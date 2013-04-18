@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>webrtc.io</title>
+</head>
+<body>
+
+
+<video id="me" autoplay="autoplay"></video>
+<video id="you" autoplay="autoplay"></video>
+
+<script src="http://localhost:3000/libs.js"></script>
+<script src="rtc-lib.js"></script>
+<script>
+
+function attach(id){
+    return function(stream){
+        rtc.attachStream(stream, id);
+    }
+}
+
+
+rtc.connect('ws://localhost:3003','my-room');
+rtc.createStream({"video": true, "audio":false}, attach('me'));
+rtc.on('add remote stream', attach('you'));
+
+
+  var events = ["ready", "get_peers", "receive_ice_candidate", "new_peer_connected", "remove_peer_connected", "receive_offer", "receive_answer"];
+
+  events.forEach(function(ev){
+    rtc.on(ev, function(e){
+        console.log(ev, ':', e)
+    })
+  });
+
+</script>
+
+</body>
+</html>

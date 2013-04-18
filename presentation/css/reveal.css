@@ -87,15 +87,22 @@ hr{
 }
 
 .demo-1 .reveal .state-background ,
-.demo-2 .reveal .state-background {
+.demo-2 .reveal .state-background ,
+.demo-3 .reveal .state-background {
 	background: #fff;
 }
 
 .demo-1 .reveal .controls,
-.demo-2 .reveal .controls{
+.demo-2 .reveal .controls,
+.demo-3 .reveal .controls{
 	opacity: 0
 }
 
+.demo-1 .reveal h2 ,
+.demo-2 .reveal h2 ,
+.demo-3 .reveal h2 {
+	text-transform: uppercase;
+}
 
 
 

@@ -4,16 +4,12 @@
 </head>
 <body>
 
-<video id="here" autoplay="autoplay"></video>
-<video id="there" autoplay="autoplay"></video>
+<video id="there" autoplay="autoplay" style="height:100%"></video>
 
 <script src="rtc-lib.js"></script>
 <script>
   rtc.connect('ws://'+document.location.host+':3003','my-room');
 
-  rtc.createStream({"video": true, "audio":false}, function(stream){
-    rtc.attachStream(stream, 'here');
-  })
 
   rtc.on('add remote stream', function(stream, socketId) {
     rtc.attachStream(stream, 'there');

@@ -133,7 +133,7 @@ window.addEventListener("storage", function(e){
 
 }</code></pre>
 
-          </section>
+          </section>  
 
 
 				</section>
@@ -222,7 +222,7 @@ $('#photo').on('change', function(event){
           <hr/><h2>.postMessage</h2>
           <hr/><h2>storage events</h2>
           <hr/><h2>WebSockets + binaryjs</h2>
-          <!--hr/><h2>webrtc</h2> -->
+          <!--hr/><h2>webRTC</h2> -->
         </section>
 
 
@@ -234,101 +234,22 @@ $('#photo').on('change', function(event){
 				<section>
 					<section>
 						<h1>webRTC</h1>
-
-						<p>[image : windows side by side]</p>
 					</section>
 
 					<section>
-						<h2>LocalStorage</h2>
-						<p>storage events</p>
+            <ul>
+              <li>MediaStream</li>
+              <li>RTCPeerConnection</li>
+              <li>RTCDataChannel</li>
+            </ul>
 					</section>
 
+          <section data-state="demo-3">
+            <h2>Demo</h2>
+          </section>
 				</section>
 
 
-				<section>
-					<section>
-						<h1>Remote</h1>
-					</section>
-
-					<section>
-						<h2>The internets</h2>
-						<p>[server, with two clients]</p>
-					</section>
-
-					<section>
-						<h2>Websockets</h2>
-						<p>[code]</p>
-					</section>
-
-					<section data-state="demo-1">
-						<h2>Demo</h2>
-					</section>
-
-					<section data-state="demo-2">
-						<h2>Demo #2</h2>
-<pre><code contenteditable>&lt;input id="photo" type="file" accept="image/*" capture="camera" /&gt;
-</code></pre>
-
-<pre><code contenteditable>var client = BinaryClient('ws://example.com');
-$('#photo').on('change', function(event){
-    var file = event.target.files[0];
-    client.send(file);
-});
-</code></pre>
-
-<!--hr />
-
-<pre><code contenteditable>binaryclient.on('stream', function(e){
-    var parts = [];
-    e.on('data', function(d){
-        parts.push(d);
-    });
-    e.on('end', function(d){
-        var img = document.createElement("img");
-        img.src = window.URL.createObjectURL(new Blob(parts));
-        document.body.appendChild(img);
-    });
-});
-</code></pre-->
-
-
-					</section>
-
-				</section>
-
-
-
-
-
-
-				<section>
-					<section>
-						<h1>Good Stuff</h1>
-
-						<p>[picture of why this is cool from twitter?]</p>
-						<p></p>
-					</section>
-
-					<section>
-						<h1>WebRTC</h1>
-						<h2>…Great stuff!</h2>
-						<ul>
-							<li>MediaStream</li>
-							<li>RTCPeerConnection</li>
-							<li>RTCDataChannel</li>
-						</ul>
-					</section>
-
-					<section data-state="demo-1">
-						<h2>Demo</h2>
-					</section>
-
-					<section data-state="demo-2">
-						<h2>Demo2</h2>
-					</section>
-
-				</section>
 
 			</div>
 
@@ -385,7 +306,7 @@ $('#photo').on('change', function(event){
 		#connection-status-binary.ok{background: #3b759e;}
 		</style>
 		<div id="connection-status-socketio"></div><div id="connection-status-binary"></div>
-
+      <script type="text/javascript" src="http://localhost:3000/rtc-lib.js"></script>
 	    <script type="text/javascript" src="http://localhost:3000/libs.js"></script>
 	    <script type="text/javascript">
 	        var shoutHostname = 'localhost';
