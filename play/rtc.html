@@ -6,16 +6,47 @@
 
 
 <video autoplay="autoplay"></video>
+<video id="other" autoplay="autoplay"></video>
 
 <script src="http://localhost:3000/libs.js"></script>
 <script src="rtc-lib.js"></script>
 <script>
-var video = document.getElementById()
+var video = document.getElementsByTagName('video')[0];
+var video2 = document.getElementsByTagName('video')[1];
+
+  rtc.connect('ws://'+document.location.host+':3003','my-room');
 
   rtc.createStream({"video": true, "audio":false}, function(stream){
+  	console.log("local", webkitURL.createObjectURL(stream));
+  	video.src = webkitURL.createObjectURL(stream);
     // get local stream for manipulation
   })
-  rtc.connect('ws://localhost:3003','my-room');
+
+  var events = ["ready", "get_peers", "receive_ice_candidate", "new_peer_connected", "remove_peer_connected", "receive_offer", "receive_answer"];
+
+  events.forEach(function(ev){
+  	rtc.on(ev, function(e){
+  		console.log(ev, ':', e)
+  	})
+  });
+
+
+  rtc.on('add remote stream', function(stream, socketId) {
+  	console.log("remote", webkitURL.createObjectURL(stream));
+    console.log("ADDING REMOTE STREAM...");
+    // var clone = cloneVideo('you', socketId);
+    // document.getElementById(clone.id).setAttribute("class", "");
+	gs = stream;
+    rtc.attachStream(stream, 'other');
+    // subdivideVideos();
+  });
+  rtc.on('disconnect stream', function(data) {
+    console.log('remove ' + data);
+    // removeVideo(data);
+  });
+
+
+
 //then a bunch of callbacks are available
 </script>
 

@@ -39,25 +39,42 @@
 			<div class="slides">
 
 				<section>
-					<h1>win win</h1>
-					<h2>communication</h2>
+					<h1>Ben Foxall</h1>
+					<h2>@benjaminbenben</h2>
+					<h3>benjaminbenben.com</h3>
+					<p><img src="img/white-october.png" style="border:none;box-shadow:none" /></p>
 				</section>
 
+<!--
+				<section>
+					<h2>Your javascript doesn't have to be constrained to one window</h2>
+				</section>
 
 				<section>
-					<h2>Broad overview</h2>
+					<h1>Webapps</h1>
+				</section>
+-->
+
+				<section>
+					<h2>The Scale of it</h2>
 					<p>
 						<img src="img/overview.jpg" />
 					</p>
-					<!-- <p><em>[images: iframe / local / remote / super-remote]</em></p> -->
+					<p>
+						[note] Windows, referenced windows, other windows on the same device, DIFFERENT DEVICES.
 
+						also, the devices that are close to you.
+					</p>
+
+					<!-- <p><em>[images: iframe / local / remote / super-remote]</em></p> -->
+<!-- 
 					<ol>
 						<li class="fragment">windows</li>
 						<li class="fragment">iframes</li>
 						<li class="fragment">opened windows</li>
 						<li class="fragment">other windows</li>
 						<li class="fragment">other devices</li>
-					</ol>
+					</ol> -->
 
 					<aside class="notes">
 						Stuff linked to this slide.  [power animal]
@@ -65,7 +82,7 @@
 					</aside>
 
 				</section>
-
+<!--
 				<section>
 					<h2>Follow along</h2>
 
@@ -84,6 +101,7 @@
 					<p>[twon video (external!?)]</p>
 
 				</section>
+-->
 
 
 
@@ -179,8 +197,7 @@ window.addEventListener("message", function(e){
 
 				<section>
 					<section>
-						<h1>Remote windows</h1>
-						<p>[picture of why this is cool from twitter]</p>
+						<h1>Remote</h1>
 					</section>
 
 					<section>
@@ -188,12 +205,43 @@ window.addEventListener("message", function(e){
 						<p>[server, with two clients]</p>
 					</section>
 
+					<section>
+						<h2>Websockets</h2>
+						<p>[code]</p>
+					</section>
+
 					<section data-state="demo-1">
 						<h2>Demo</h2>
 					</section>
 
 					<section data-state="demo-2">
-						<h2>Demo2</h2>
+						<h2>Demo #2</h2>
+<pre><code contenteditable>&lt;input id="photo" type="file" accept="image/*" capture="camera" /&gt;
+</code></pre>
+
+<pre><code contenteditable>var client = BinaryClient('ws://example.com');
+$('#photo').on('change', function(event){
+    var file = event.target.files[0];
+    client.send(file);
+});
+</code></pre>
+
+<!--hr />
+
+<pre><code contenteditable>binaryclient.on('stream', function(e){
+    var parts = [];
+    e.on('data', function(d){
+        parts.push(d);
+    });
+    e.on('end', function(d){
+        var img = document.createElement("img");
+        img.src = window.URL.createObjectURL(new Blob(parts));
+        document.body.appendChild(img);
+    });
+});
+</code></pre-->
+
+
 					</section>
 
 				</section>
@@ -201,9 +249,13 @@ window.addEventListener("message", function(e){
 
 
 
+
+
 				<section>
 					<section>
 						<h1>Good Stuff</h1>
+
+						<p>[picture of why this is cool from twitter?]</p>
 						<p></p>
 					</section>
 
@@ -551,9 +603,9 @@ function linkify( selector ) {
 		</style>
 		<div id="connection-status-socketio"></div><div id="connection-status-binary"></div>
 
-	    <script type="text/javascript" src="http://x.ben.dev:3000/libs.js"></script>
+	    <script type="text/javascript" src="http://localhost:3000/libs.js"></script>
 	    <script type="text/javascript">
-	        var shoutHostname = 'x.ben.dev';
+	        var shoutHostname = 'localhost';
 
 	        var streams = {
 	            socketio:io.connect('http://' + shoutHostname + ':3001'),
@@ -608,7 +660,7 @@ function linkify( selector ) {
 
 
 
-		    		console.log("OKAYE", message);
+		    		// console.log("OKAYE", message);
 
 
 					var js = JSON.parse(message);
@@ -621,7 +673,7 @@ function linkify( selector ) {
 
 					} else {
 
-		    			console.log("OKAYE", message);
+		    			// console.log("OKAYE", message);
 
 						ctx.fillStyle = '#000000';
 						ctx.beginPath();
@@ -660,6 +712,20 @@ function linkify( selector ) {
 	    		ishow.className = ''
 	    		ishow.style.backgroundImage = '';
 			});
+
+
+	    	Reveal.addEventListener( 'slidechanged', function(e) {
+	    		if(window.top === window)
+		    		localStorage.setItem('current-slide',e.indexh +' '+ e.indexv);
+			});
+
+			window.addEventListener("storage", function(e){
+				console.log("ST", e);
+				if(e.key == 'current-slide'){
+					var val = e.newValue.split(' ').map(parseFloat);
+					Reveal.slide(val[0],val[1])
+				}
+			}, false);
 
 
 	    </script>

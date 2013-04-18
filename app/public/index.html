@@ -19,9 +19,10 @@
     <p id="dev"></p>
 
 
-    <script type="text/javascript" src="http://x.ben.dev:3000/libs.js"></script>
+    <script type="text/javascript" src="/libs.js"></script>
     <script type="text/javascript">
-        var shoutHostname = 'x.ben.dev';
+        var shoutHostname = document.location.hostname;
+        // var shoutHostname = '192.168.1.5';
 
         var streams = {
             socketio:io.connect('http://' + shoutHostname + ':3001'),
