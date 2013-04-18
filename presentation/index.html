@@ -39,140 +39,193 @@
 			<div class="slides">
 
 				<section>
+					<h1>win win</h1>
+					<h2>communication</h2>
+				</section>
+
+				<section>
 					<h1>Ben Foxall</h1>
 					<h2>@benjaminbenben</h2>
 					<h3>benjaminbenben.com</h3>
 					<p><img src="img/white-october.png" style="border:none;box-shadow:none" /></p>
 				</section>
 
-<!--
-				<section>
-					<h2>Your javascript doesn't have to be constrained to one window</h2>
+				<section class="summary">
+					<h2>window</h2>
+					<!-- <hr/><h2>.postMessage</h2>
+					<hr/><h2>storage events</h2>
+					<hr/><h2>websockets (+binary)</h2>
+					<hr/><h2>webrtc</h2> -->
 				</section>
-
-				<section>
-					<h1>Webapps</h1>
-				</section>
--->
-
-				<section>
-					<h2>The Scale of it</h2>
-					<p>
-						<img src="img/overview.jpg" />
-					</p>
-					<p>
-						[note] Windows, referenced windows, other windows on the same device, DIFFERENT DEVICES.
-
-						also, the devices that are close to you.
-					</p>
-
-					<!-- <p><em>[images: iframe / local / remote / super-remote]</em></p> -->
-<!-- 
-					<ol>
-						<li class="fragment">windows</li>
-						<li class="fragment">iframes</li>
-						<li class="fragment">opened windows</li>
-						<li class="fragment">other windows</li>
-						<li class="fragment">other devices</li>
-					</ol> -->
-
-					<aside class="notes">
-						Stuff linked to this slide.  [power animal]
-						<img src="http://placekitten.com/g/100/100" />
-					</aside>
-
-				</section>
-<!--
-				<section>
-					<h2>Follow along</h2>
-
-					<h3>[nice to have]</h3>
-
-				</section>
-
-
-
-
-				<section>
-					<h2>Physical things</h2>
-
-					<p>[image of people sharing things?]</p>
-
-					<p>[twon video (external!?)]</p>
-
-				</section>
--->
-
-
 
 				<section>
 					<section>
-						<h1>postMessage</h1>
-
-						<p>[image : iframe &amp; window.opener]</p>
-
-						<h3>Seems boring; is super-handy</h3>
-					</section>
-
-
-					<section>
-						<h2>Superbasic?!</h2>
-
-						<ul>
-							<li>window.top</li>
-							<li>isn't cross origin</li>
-						</ul>
-
-					</section>
-
-
-					<section>
-						<h2>Stuff</h2>
-
-						<ul>
-							<li>need a reference to the window</li>
-							<li>can be cross origin</li>
-						</ul>
-
+						<h2>postMessage</h2>
 					</section>
 
 					<section>
-						<h2>Posting messages</h2>
-						<pre><code>
-var myframe = $("#my-frame")[0];
-myframe.postMessage("Howdy", "*");
 
-var mywin = window.open("http://benjaminbenben.com/exmple.html");
-//...
-mywin.postMessage("Howdy", "*");
+<pre><code>
+// listener (iframe.html)
+$(window).on('message', function(e){
+	alert(e.data + "!!1!one!");
+})
+
+
+
+// parent (main.html)
+$('#my-frame').get(0).postMessage('Howdy', '*');
+
 
 </code></pre>
 					</section>
+				</section>
 
+				<section class="summary">
+					<h2>window</h2>
+					<hr/><h2>.postMessage</h2>
+					<!-- <hr/><h2>storage events</h2>
+					<hr/><h2>websockets (+binary)</h2>
+					<hr/><h2>webrtc</h2> -->
+				</section>
+
+
+
+				<section>
+					<section>
+						<h2>LocalStorage</h2>
+						<h3>+ storage events</h3>
+					</section>
 
 					<section>
-						<h2>Listening</h2>
-						<pre><code>
-window.addEventListener("message", function(e){
-	alert(e.data); // "Howdy"
+
+<pre><code>
+localStorage.setItem('my-key','the data');
+
+window.addEventListener("storage", function(e){
+
+ if(e.key == 'my-key')
+  console.log(e.newValue); // 'the data'
+
 }, false);
 
 </code></pre>
 
 					</section>
 
+          <section>
 
-					<section>
-						<h2>Compatibility</h2>
+<pre><code>if(window.top === window){
 
-						<p>pretty good</p>
+// store the new slide index
+Reveal.addEventListener('slidechanged', function(e) {
+  var send = e.indexh + ',' + e.indexv;
+  localStorage.setItem('rslide',send);
+});
 
-						<p><a href="http://benalman.com/projects/jquery-postmessage-plugin/">
-							polyfill</a></p>
+// restore 
+window.addEventListener("storage", function(e){
+  if(e.key == 'rslide'){
+    var vals = e.newValue.split(',').map(parseFloat);
+    Reveal.slide(vals[0],vals[1]);
+  }
+}, false);
 
-					</section>
+}</code></pre>
+
+          </section>
+
 
 				</section>
+
+				<section class="summary">
+					<h2>window</h2>
+					<hr/><h2>.postMessage</h2>
+					<hr/><h2>storage events</h2>
+					<!-- <hr/><h2>websockets (+binary)</h2>
+					<hr/><h2>webrtc</h2> -->
+				</section>
+
+
+        <section>
+          <section>
+            <h2>WebSockets</h2>
+          </section>
+
+
+          <section>
+            <h2>"How the internet works"</h2>
+          </section>
+
+          <section>
+
+<pre><code>
+var ws = new WebSocket('ws://example.com/');
+
+ws.onmessage = function(event){
+  console.log(event.data + '!!')
+};
+
+ws.send("Hello")
+
+</code></pre>
+          </section>
+
+
+          <section data-state="demo-1">
+            <h2>Demo</h2>
+          </section>
+
+        </section>
+
+        <section class="summary">
+          <h2>window</h2>
+          <hr/><h2>.postMessage</h2>
+          <hr/><h2>storage events</h2>
+          <hr/><h2>WebSockets</h2>
+          <!--hr/><h2>webrtc</h2> -->
+        </section>
+
+
+
+
+
+        <section>
+          <section>
+            <h2>ws.send(&lt;Blob&gt;)</h2>
+          </section>
+
+          <section>
+
+<pre><code>&lt;input id="photo" type="file" accept="image/*" capture="camera" /&gt;</code></pre>
+
+<pre><code>var client = new BinaryClient('ws://localhost:9000');
+
+$('#photo').on('change', function(event){
+    var file = event.target.files[0];
+    var stream = client.send(file);
+});</code></pre>
+
+<p><small>(BinaryClient - <a href="http://binaryjs.com/">binaryjs.com</a>)</small></p>
+
+          </section>
+
+          <section data-state="demo-2">
+            <h2>Demo</h2>
+          </section>
+
+        </section>
+
+
+        <section class="summary">
+          <h2>window</h2>
+          <hr/><h2>.postMessage</h2>
+          <hr/><h2>storage events</h2>
+          <hr/><h2>WebSockets + binaryjs</h2>
+          <!--hr/><h2>webrtc</h2> -->
+        </section>
+
+
 
 
 
@@ -180,11 +233,9 @@ window.addEventListener("message", function(e){
 
 				<section>
 					<section>
-						<h1>Local windows</h1>
+						<h1>webRTC</h1>
 
 						<p>[image : windows side by side]</p>
-						<h2>Keeping </h2>
-						<a href="../play/sharedww.html">demo</a>
 					</section>
 
 					<section>
@@ -279,274 +330,6 @@ $('#photo').on('change', function(event){
 
 				</section>
 
-
-
-
-
-
-
-
-				<section>
-					<h2>Heads Up</h2>
-					<p>
-						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
-						support for CSS 3D transforms to see it in its full glory.
-					</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>
-							Slides can be nested inside of other slides,
-							try pressing <a href="#" class="navigate-down">down</a>.
-						</p>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Press down or up to navigate.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>Cornify</p>
-						<a class="test" href="http://cornify.com">
-							<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 3</h2>
-						<p>That's it, time to go back up.</p>
-						<a href="#/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview. Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
-
-				<section>
-					<h2>rvl.io</h2>
-					<p>
-						If you don't like writing slides in HTML you can use the online editor <a href="http://www.rvl.io" target="_blank">rvl.io</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Works in Mobile Safari</h2>
-					<p>
-						Try it out! You can swipe through the slides and pinch your way to the overview.
-					</p>
-				</section>
-
-				<section>
-					<h2>Marvelous Unordered List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-
-							<section data-markdown>
-							  ## Markdown support
-
-							  For those of you who like that sort of thing.
-							  Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-							</section>
-					</script>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=cube#/transitions">Cube</a> -
-						<a href="?transition=page#/transitions">Page</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a> -
-						<a href="?transition=linear#/transitions">Linear</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?#/transitions">Default</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						Reveal.js comes with a few themes built in: <br>
-						<a href="?theme=sky#/themes">Sky</a> -
-						<a href="?theme=beige#/themes">Beige</a> -
-						<a href="?theme=simple#/themes">Simple</a> -
-						<a href="?theme=serif#/themes">Serif</a> -
-						<a href="?theme=night#/themes">Night</a> -
-						<a href="?#/themes">Default</a>
-					</p>
-					<p>
-						<small>
-							* Theme demos are loaded after the presentation which leads to flicker. In production you should load your theme in the <code>&lt;head&gt;</code> using a <code>&lt;link&gt;</code>.
-						</small>
-					</p>
-				</section>
-
-				<section>
-					<section data-state="alert">
-						<h2>Global State</h2>
-						<p>
-							Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-							will be added as a class to the document element when the slide is open. This lets you
-							apply broader style changes, like switching the background.
-						</p>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-state="blackout">
-						<h2>"blackout"</h2>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-state="soothe">
-						<h2>"soothe"</h2>
-						<a href="#" class="image navigate-next">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(-90deg);">
-						</a>
-					</section>
-				</section>
-
-				<section data-state="customevent">
-					<h2>Custom Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code contenteditable style="font-size: 18px; margin-top: 20px;">Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						The nice thing about standards is that there are so many to choose from</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) ) {
-        node.className += ' roll';
-      }
-    };
-  }
-}
-					</code></pre>
-					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<section>
-						<h2>Fragmented Views</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<ol>
-							<li class="fragment"><code>any type</code></li>
-							<li class="fragment"><em>of view</em></li>
-							<li class="fragment"><strong>fragments</strong></li>
-						</ol>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's a few styles of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment roll-in">roll-in</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-green">highlight-green</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section>
-					<h2>Spectacular image!</h2>
-					<a class="image" href="http://lab.hakim.se/meny/" target="_blank">
-						<img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
-					</a>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
-					<iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
-					<script>
-						document.getElementById('slideshare').attributeName = 'allowfullscreen';
-					</script>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take distracting slides off the screen
-						during a presentation.
-					</p>
-				</section>
 			</div>
 
 		</div>
@@ -635,6 +418,8 @@ function linkify( selector ) {
 
 
 
+		<script src="js/jquery.js"></script>
+
 
 	    <div id="image-show"></div>
 		<div id="n4"><canvas width="216" height="362"></canvas></div>
@@ -687,6 +472,10 @@ function linkify( selector ) {
 
 	    	});
 
+
+
+
+
 			streams.binary.on('stream', function(e){
 
 
@@ -714,18 +503,24 @@ function linkify( selector ) {
 			});
 
 
-	    	Reveal.addEventListener( 'slidechanged', function(e) {
-	    		if(window.top === window)
-		    		localStorage.setItem('current-slide',e.indexh +' '+ e.indexv);
-			});
+			// only for top level windows
+			if(window.top === window){
 
-			window.addEventListener("storage", function(e){
-				console.log("ST", e);
-				if(e.key == 'current-slide'){
-					var val = e.newValue.split(' ').map(parseFloat);
-					Reveal.slide(val[0],val[1])
-				}
-			}, false);
+				// store the new slide index
+				Reveal.addEventListener('slidechanged', function(e) {
+					var send = e.indexh + ',' + e.indexv;
+					localStorage.setItem('rslide',send);
+				});
+
+				// restore 
+				window.addEventListener("storage", function(e){
+					if(e.key == 'rslide'){
+						var vals = e.newValue.split(',').map(parseFloat);
+						Reveal.slide(vals[0],vals[1]);
+					}
+				}, false);
+
+			}
 
 
 	    </script>
