@@ -203,7 +203,7 @@ ws.send("Hello")
 
 $('#photo').on('change', function(event){
     var file = event.target.files[0];
-    var stream = client.send(file);
+    client.send(file);
 });</code></pre>
 
 <p><small>(BinaryClient - <a href="http://binaryjs.com/">binaryjs.com</a>)</small></p>
@@ -237,18 +237,38 @@ $('#photo').on('change', function(event){
 					</section>
 
 					<section>
-            <ul>
-              <li>MediaStream</li>
-              <li>RTCPeerConnection</li>
-              <li>RTCDataChannel</li>
-            </ul>
+			            <ul>
+			              <li>MediaStream</li>
+			              <li>RTCPeerConnection</li>
+			              <li>RTCDataChannel</li>
+			            </ul>
 					</section>
 
-          <section data-state="demo-3">
-            <h2>Demo</h2>
-          </section>
+		          <section data-state="demo-3">
+		            <h2>Demo</h2>
+		          </section>
 				</section>
 
+
+
+
+
+        <section class="summary">
+          <h2>window</h2>
+          <hr/><h2>.postMessage</h2>
+          <hr/><h2>storage events</h2>
+          <hr/><h2>WebSockets + binaryjs</h2>
+          <hr/><h2>webRTC</h2>
+        </section>
+
+
+
+		<section>
+			<h1>Ben Foxall</h1>
+			<h2>@benjaminbenben</h2>
+			<h3>benjaminbenben.com</h3>
+			<p><img src="img/white-october.png" style="border:none;box-shadow:none" /></p>
+		</section>
 
 
 			</div>
@@ -298,28 +318,53 @@ $('#photo').on('change', function(event){
 
 		<style type="text/css">
 		#connection-status-socketio,
-		#connection-status-binary{
-			height:2px; width:50%; position: fixed;
+		#connection-status-binary,
+		#connection-status-rtc{
+			height:2px; width:30%; position: fixed;
 			background: #c00; top:0; z-index: 10; }
 		#connection-status-binary{right:0;}
+		#connection-status-rtc{left:30%; width:40%;}
 		#connection-status-socketio.ok,
-		#connection-status-binary.ok{background: #3b759e;}
+		#connection-status-binary.ok,
+		#connection-status-rtc.ok{background: #3b759e;}
+
+		#rtc-video{
+			/*background-color:#f08;*/
+			height:100%;
+			width:100%;
+			position: fixed;
+			left:0;top:0;
+			z-index: 10;
+			opacity: 0;
+
+			-webkit-transition: opacity 2s ease;
+		}
+		#rtc-video.active{
+			opacity: 1;
+		}
+
 		</style>
-		<div id="connection-status-socketio"></div><div id="connection-status-binary"></div>
-      <script type="text/javascript" src="http://localhost:3000/rtc-lib.js"></script>
+		<div id="connection-status-socketio"></div><div id="connection-status-rtc"></div><div id="connection-status-binary"></div>
+
+		<video id="rtc-video" autoplay="autoplay"></video>
+
 	    <script type="text/javascript" src="http://localhost:3000/libs.js"></script>
 	    <script type="text/javascript">
 	        var shoutHostname = 'localhost';
 
+	        rtc.connect('ws://'+shoutHostname+':3003','my-room');
+
 	        var streams = {
 	            socketio:io.connect('http://' + shoutHostname + ':3001'),
-	            binary:BinaryClient('ws://'+shoutHostname+':3002')
+	            binary:BinaryClient('ws://'+shoutHostname+':3002'),
+	            rtc: rtc
 	        };
 
 			// show status	        
 			var statusses = {
 	            socketio:document.getElementById('connection-status-socketio'),
-	            binary:document.getElementById('connection-status-binary')
+	            binary:document.getElementById('connection-status-binary'),
+	            rtc:document.getElementById('connection-status-rtc')
 	        };
 
 	        streams.binary.on('close', function(){
@@ -335,6 +380,17 @@ $('#photo').on('change', function(event){
 	        streams.socketio.on('connect', function(){
 	        	statusses.socketio.className='ok';
 	        });
+
+
+	        streams.rtc.on('close_stream', function(e, i){
+	        	console.log(e, i);
+	        	statusses.rtc.className='';
+	        });
+
+	        streams.rtc.on('connect', function(){
+	        	statusses.rtc.className='ok';
+	        });
+
 	    </script>
 
 
@@ -392,6 +448,37 @@ $('#photo').on('change', function(event){
 		    	}
 
 	    	});
+
+	    	var video = document.getElementById('rtc-video');
+
+	    	streams.rtc.on('add remote stream', function(stream, socketId) {
+	    		console.log("|NEW STREAM");
+	    		// if(activeSlide('demo-3')){
+    			rtc.attachStream(stream, 'rtc-video');
+
+    			// setTimeout(function(){
+				video.className = 'active';	
+    			// },1500);
+    			
+	    		// }
+			});
+
+
+			rtc.on('new_peer_connected', function(data) {
+				console.log("----OPEN");
+
+			});
+
+			rtc.on('remove_peer_connected', function(data) {
+				console.log("----CLOSE");
+				video.className = ''
+
+			})
+
+
+		// 	  rtc.on('add remote stream', function(stream, socketId) {
+  //   rtc.attachStream(stream, 'there');
+  // });
 
 
 
