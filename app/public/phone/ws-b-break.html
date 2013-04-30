@@ -1,0 +1,228 @@
+<html>
+<head>
+	<title>Websockets</title>
+	<style type="text/css">
+    body{
+        margin:0;
+    }
+	canvas.full{
+		width:100%;height:100%;
+		background: #ddd
+	}
+    h1{
+        position: fixed;
+    }
+	</style>
+</head>
+<body>
+
+<input id="photo" type="file" accept="image/*" capture="camera" />
+
+<h1>ws-b</h1>
+<video autoplay="true"></video>
+<canvas id="c"></canvas>
+
+
+
+<script type="text/javascript">
+
+var ws = new WebSocket('ws://'+document.location.host+':8080/','echo-protocol');
+ws.onmessage = function(event){
+    // nothing
+};
+ws.onerror = function(event){
+    alert("err" + event);
+};
+
+ws.onclose = function(event){
+    alert("buf" + ws.bufferedAmount)
+    alert("close" + JSON.stringify(event.reason));
+}
+
+ws.onopen = function (event) {
+    ws.send("b");
+};
+
+ws.binaryType = 'arraybuffer';
+
+function send_point(x,y){
+    var str = JSON.stringify({x:x,y:y});
+    document.getElementsByTagName('h1')[0].innerText = str;
+    if (ws && ws.readyState === 1) 
+            ws.send(str);
+}
+
+
+
+
+photo.addEventListener('change', function(event){
+    var file = event.target.files[0];
+
+    console.log(event.target.files);
+
+    // if (ws && ws.readyState === 1) 
+    //         ws.send(file);
+
+    var reader = new FileReader();
+
+    reader.onload = function(e){
+        gr = e.target.result;
+
+        // alert("decoded!");
+
+        // alert(gr);
+
+        if (ws && ws.readyState === 1) 
+            ws.send(gr);//.slice(0,500000));
+    };
+
+    // (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+
+    reader.readAsDataURL(file);
+
+
+}, false);
+
+
+// take a picture,  call back with someImageData
+function snap(callback){
+/*
+    video.
+
+    navigator.webkitGetUserMedia({video:true}, function(stream){
+        var video = document.createElement('video');
+        video.autoplay = 'autoplay'
+
+        gs = stream
+        video.src = webkitURL.createObjectURL(stream);
+        video.play();
+
+        video.addEventListener('canplay', function(ev){
+
+            setTimeout(function(){
+
+                var h = video.videoHeight;
+                var w = video.videoWidth;
+
+                var canvas = document.createElement('canvas');
+                canvas.height = h;
+                canvas.width = w;
+
+
+                canvas.getContext("2d").drawImage(video, 0, 0);
+
+
+                console.log("CANPLAY");
+
+                setTimeout(function(){
+
+                stream.stop();
+                },1000)
+
+            },3000);
+
+        }, false);
+
+
+    });
+*/
+}
+
+/*
+// var video = document.getElementById('v');
+var canvas = document.getElementById("c");
+
+navigator.webkitGetUserMedia({video:true}, function(stream){
+    var video = document.createElement('video');
+    video.autoplay = 'autoplay'
+
+    gs = stream
+    video.src = webkitURL.createObjectURL(stream);
+    video.play();
+
+    video.addEventListener('canplay', function(ev){
+
+        setTimeout(function(){
+
+            var h = video.videoHeight;
+            var w = video.videoWidth;
+
+            // var canvas = document.createElement('canvas');
+            canvas.height = h;
+            canvas.width = w;
+
+            canvas.getContext("2d").drawImage(video, 0, 0);
+
+            console.log("CANPLAY");
+
+            stream.stop();
+
+        },300);
+
+    }, false);
+
+
+
+});
+
+
+	var ws = new WebSocket('ws://'+document.location.host+':8080/','echo-protocol');
+	ws.onmessage = function(event){
+        // nothing
+	};
+	ws.onopen = function (event) {
+		ws.send("b");
+	};
+
+    function send_point(x,y){
+        var str = JSON.stringify({x:x,y:y});
+        document.getElementsByTagName('h1')[0].innerText = str;
+        if (ws && ws.readyState === 1) 
+                ws.send(str);
+    }
+
+
+    document.body.addEventListener('touchmove',function(event){
+        event.preventDefault();
+
+        var touches=event.touches;
+        var str = touches.length + ws.readyState;
+
+        document.getElementsByTagName('h1')[0].innerText = str;
+
+        for (var i=0; i<touches.length; i++) {
+
+            send_point(touches[i].pageX,touches[i].pageY);
+
+        }
+
+    },false);
+
+
+    document.body.addEventListener('touchstart',function(event){
+        event.preventDefault();
+
+        var touches=event.touches;
+        var str = touches.length + ws.readyState;
+
+        document.getElementsByTagName('h1')[0].innerText = str;
+
+        for (var i=0; i<touches.length; i++) {
+
+            send_point(touches[i].pageX,touches[i].pageY);
+
+        }
+
+    },false);
+
+
+    // stop dragging to scroll
+	canvas.addEventListener("touchmove", function(event){
+		event.preventDefault();
+	}, false);
+
+/**/
+
+</script>
+</body>
+</html>

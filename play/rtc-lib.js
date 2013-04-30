@@ -63,6 +63,10 @@ if (navigator.webkitGetUserMedia) {
   };
 
   rtc.fire = function(eventName, _) {
+    if(rtc.debug) {
+      console.log('webrtc.io>', eventName);
+    }
+    
     var events = rtc._events[eventName];
     var args = Array.prototype.slice.call(arguments, 1);
 

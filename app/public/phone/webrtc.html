@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>webrtc.io</title>
+    <style type="text/css">
+    video{
+    	width:100%
+    }
+    	</style>
+</head>
+<body>
+
+<video id="here" autoplay="autoplay"></video>
+<video id="there" autoplay="autoplay"></video>
+
+<!-- <script src="rtc-lib.js"></script> -->
+
+<script type="text/javascript" src="/libs.js"></script>
+<script>
+  rtc.connect('ws://'+document.location.hostname+':3003','my-room');
+
+  rtc.createStream({"video": true, "audio":false}, function(stream){
+    rtc.attachStream(stream, 'here');
+  })
+
+  // rtc.on('add remote stream', function(stream, socketId) {
+  //   rtc.attachStream(stream, 'there');
+  // });
+
+</script>
+
+</body>
+</html>

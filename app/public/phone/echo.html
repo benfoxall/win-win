@@ -1,0 +1,14 @@
+<html>
+<head>
+	<title>Echo</title>
+
+	<script type="text/javascript">
+    $(window).on('message', function(e){
+        $('#echo').text(e.data);
+    })
+	</script>
+</head>
+<body>
+	<h1 id="echo"></h1>
+</body>
+</html>

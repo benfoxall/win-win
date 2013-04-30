@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>bbb present app</title>
+
+    <style type="text/css">
+        body{
+            font-family: sans-serif;
+        }
+        a{
+            color:#08f;
+            text-decoration: none;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <input id="photo" type="file" accept="image/*" capture="camera" />
+    <p id="dev"></p>
+
+
+    <script type="text/javascript" src="/libs.js"></script>
+    <script type="text/javascript">
+        var shoutHostname = document.location.hostname;
+        // var shoutHostname = '192.168.1.5';
+
+        var streams = {
+            socketio:io.connect('http://' + shoutHostname + ':3001'),
+            binary:BinaryClient('ws://'+shoutHostname+':3002')
+        };
+
+        // show status
+
+    </script>
+
+    <script type="text/javascript">
+
+        var socketio = streams.socketio;// io.connect('http://' + shoutHost + ':3001');
+
+        socketio.on('message', function(m){
+            console.log("MESSAGE", m);
+        })
+
+        setTimeout(function(){
+            socketio.send("This should go everywhere")
+        });
+    </script>
+
+
+
+<script type="text/javascript">
+
+var binaryclient = streams.binary; //BinaryClient('ws://'+shoutHost+':3002');
+
+photo.addEventListener('change', function(event){
+    var file = event.target.files[0];
+    var stream = binaryclient.send(file, {name: file.name, size: file.size});
+    console.log("send")
+}, false);
+
+
+binaryclient.on('open', function(){
+    console.log('open');
+});
+binaryclient.on('error', function(){
+    console.log('error')
+});
+binaryclient.on('connection', function(){
+    console.log('connection')
+});
+binaryclient.on('data', function(){
+    console.log('DATA')
+});
+
+binaryclient.on('stream', function(e){
+    var parts = [];
+    e.on('data', function(d){
+        parts.push(d);
+    });
+    e.on('end', function(d){
+        // console.log('EMDED',d)
+        var img = document.createElement("img");
+        img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+        document.body.appendChild(img);
+    });
+});
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

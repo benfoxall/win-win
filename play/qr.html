@@ -2,98 +2,38 @@
 <head>
 	<title>QR</title>
 
-	<script type="text/javascript" src="jsqrcode/src/grid.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/version.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/detector.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/formatinf.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/errorlevel.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/bitmat.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/datablock.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/bmparser.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/datamask.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/rsdecoder.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/gf256poly.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/gf256.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/decoder.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/qrcode.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/findpat.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/alignpat.js"></script>
-	<script type="text/javascript" src="jsqrcode/src/databr.js"></script>
 	<script type="text/javascript">
+
+
+
 		function init() {
-			var v =  document.createElement('video'),// document.getElementsByTagName('video')[0],
-				canvas = document.getElementsByTagName('canvas')[0],
+			var v = document.getElementsByTagName('video')[0];
 
 
-				bCtx = canvas.getContext('2d');
-
-			qrcode.callback = function(data){
-				console.log("DATA", data);
-				// qrcode.callback = null;
-
+// navigator.getUserMedia({
+// video: {
+// 	mandatory: {
+// 		chromeMediaSource: 'screen'
+// 		}
+// 	}
+// });
+	navigator.webkitGetUserMedia({
+		video:{
+			mandatory: {
+				chromeMediaSource: 'screen'
 			}
-
-
-			navigator.webkitGetUserMedia({video:true}, function(stream){
-				alert(webkitURL.createObjectURL(stream));
-				v.src = webkitURL.createObjectURL(stream);
-				v.play();
-
-				window.requestAnimationFrame(draw);
-
-			});
-
-			var decoding = false;
-
-
-
-			function draw() {
-				var w = canvas.clientWidth;
-				var h = canvas.clientHeight;
-				bCtx.drawImage(v, 0, 0, w, h);
-
-				if(!decoding){
-					decoding = true;
-					setTimeout(function(){
-
-						try{
-							qrcode.decode();
-						} catch(e){
-							console.log('e');
-						}
-
-						decoding = false;
-
-					},100)
-				}
-
-
-				
-
-				
-
-				window.requestAnimationFrame(draw);
-			}
-
 		}
+	}, function(stream){
+				v.src = webkitURL.createObjectURL(stream);
+				// v.play();
+	});
 
-// 		function init() {
-//   v = document.getElementById('v');
-//   canvas = document.getElementById('c');
-//   gCtx = canvas.getContext('2d');
-//   navigator.webkitGetUserMedia({video:true}, callbackStreamIsReady);
-// }
+	}
 
-// function callbackStreamIsReady(stream) {
-//   v.src = URL.createObjectURL(stream);
-//   v.play();
-//   window.requestAnimationFrame(draw);
-// }
 	</script>
 </head>
 <body onload="init()">
-	<input id="message" value="my message">
-	<video id="vid"></video>
-	<canvas  width="800" height="600" id="qr-canvas"></canvas>
+	<h1>HELLO</h1>
+	<video autoplay="autorplay" id="vid"></video>
 </body>
 </html>

@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>Websockets</title>
+
+	<style type="text/css">
+		#n4{
+			background-image:url(n4.png);
+			height:496px;
+			width:262px;
+			-webkit-transform-style: preserve-3d;
+		    -webkit-transition: -webkit-transform 500ms;
+		}
+        #n4 canvas{
+            background-color: #fff;
+            width: 216px;
+            height: 362px;
+            margin-top: 64px;
+            margin-left: 21px;
+        }
+	</style>
+</head>
+<body>
+
+
+<div id="n4"><canvas width="216" height="362"></canvas></div>
+
+
+<p id="dev"></p>
+
+<script type="text/javascript">
+
+    var canvas = document.getElementById('n4').childNodes[0];
+    var ctx = canvas.getContext('2d');
+
+	var ws = new WebSocket('ws://localhost:8080/','echo-protocol');
+	ws.onmessage = function(event){
+		document.getElementById('dev').innerText = event.data;
+		var js = JSON.parse(event.data);
+        ctx.beginPath();
+        ctx.arc(js.x/4.5,js.y/4,10,0,6)
+        ctx.fill();
+	};
+	ws.onopen = function (event) {
+		ws.send("a");
+	};
+
+</script>
+</body>
+</html>
