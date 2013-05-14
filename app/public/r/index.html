@@ -140,7 +140,7 @@ window.addEventListener("storage", function(e){
 
 					</section>
 
-          <section>
+        <section>
 
 			<h2>Example</h2>
 			<h3>reveal.js speaker notes</h3>
@@ -166,28 +166,29 @@ window.addEventListener("storage", function(e){
           </section>  
 
 
-				</section>
+		</section>
 
-				<section class="summary">
-					<h2>window</h2>
-					<hr/><h2>.postMessage</h2>
-					<hr/><h2>storage events</h2>
-					<!-- <hr/><h2>websockets (+binary)</h2>
-					<hr/><h2>webrtc</h2> -->
-				</section>
+		<section class="summary">
+			<h2>window</h2>
+			<hr/><h2>.postMessage</h2>
+			<hr/><h2>storage events</h2>
+			<!-- <hr/><h2>websockets (+binary)</h2>
+			<hr/><h2>webrtc</h2> -->
+		</section>
 
 
         <section>
-          <section>
-            <h2>WebSockets</h2>
-          </section>
 
+			<section>
+				<h2>Cross device</h2>
+				<img src="img/win-multi-device.png" class="noborder" />
+			</section>
 
-          <section>
-            <h2>"How the internet works"</h2>
-          </section>
+			<section>
+				<h2>"How the internet works"</h2>
+			</section>
 
-          <section>
+		<section>
 
 <pre><code>
 var ws = new WebSocket('ws://example.com/');
@@ -206,23 +207,8 @@ ws.send("Hello")
             <h2>Demo</h2>
           </section>
 
-        </section>
-
-        <section class="summary">
-          <h2>window</h2>
-          <hr/><h2>.postMessage</h2>
-          <hr/><h2>storage events</h2>
-          <hr/><h2>WebSockets</h2>
-          <!--hr/><h2>webrtc</h2> -->
-        </section>
-
-
-
-
-
-        <section>
           <section>
-            <h2>ws.send(&lt;Blob&gt;)</h2>
+          	<h2>'{"x":42,"y":42}'</h2>
           </section>
 
           <section>
@@ -251,51 +237,42 @@ $('#photo').on('change', function(event){
           <h2>window</h2>
           <hr/><h2>.postMessage</h2>
           <hr/><h2>storage events</h2>
-          <hr/><h2>WebSockets + binaryjs</h2>
+          <hr/><h2>WebSockets (+ binaryjs)</h2>
           <!--hr/><h2>webRTC</h2> -->
         </section>
 
+		<section>
+			<section>
+				<h2>Realtime?</h2>
+				<h3 class="fragment">Web Servers</h3>
+				<h3 class="fragment">HTTP (TCP)</h3>
+			</section>
 
+			<section>
+				<h1>webRTC</h1>
 
+				<img src="img/win-rtc.png"  class="fragment noborder" />
+			</section>
 
+			<section>
+	            <ul>
+	              <li>RTCPeerConnection</li>
+	              <li>RTCDataChannel</li>
+	              <li>MediaStream</li>
+	            </ul>
+			</section>
 
-
-
-				<section>
-					<section>
-						<h1>Realtime</h1>
-						<ul>
-							<li>HTTP</li>
-							<li>web servers</li>
-						</ul>
-
-					</section>
-					<section>
-						<h1>webRTC</h1>
-					</section>
-
-					<section>
-			            <ul>
-			              <li>MediaStream</li>
-			              <li>RTCPeerConnection</li>
-			              <li>RTCDataChannel</li>
-			            </ul>
-					</section>
-
-		          <section data-state="demo-3">
-		            <h2>Demo</h2>
-		          </section>
-				</section>
-
-
-
+          <section data-state="demo-3">
+            <h2>Demo</h2>
+          </section>
+		</section>
 
 
         <section class="summary">
           <h2>window</h2>
           <hr/><h2>.postMessage</h2>
           <hr/><h2>storage events</h2>
-          <hr/><h2>WebSockets + binaryjs</h2>
+          <hr/><h2>WebSockets (+ binaryjs)</h2>
           <hr/><h2>webRTC</h2>
         </section>
 
