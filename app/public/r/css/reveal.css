@@ -2,6 +2,12 @@
 
 /* custom hacks */
 
+.reveal section img.noborder{
+	border:none;
+	background:none;
+	box-shadow:none;
+}
+
 #n4{
 	position: absolute;
 	background-image:url(../img/n4.png);

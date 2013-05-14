@@ -41,6 +41,12 @@
 				<section>
 					<h1>win win</h1>
 					<h2>communication</h2>
+
+					<aside class="notes">
+						Souls of the Animal Kingdom: <em>Eagle, Fox, Bottlenose Dolphin, Octopus, House Cat.</em> <br />
+						<img src="/r/img/housecat.png" />
+					</aside>
+
 				</section>
 
 				<section>
@@ -59,6 +65,12 @@
 				</section>
 
 				<section>
+
+					<section>
+						<h2>Opened windows</h2>
+						<img src="img/win-opened.png" class="noborder" />
+					</section>
+
 					<section>
 						<h2>postMessage</h2>
 					</section>
@@ -79,6 +91,15 @@ $('#my-frame').get(0).postMessage('Howdy', '*');
 
 </code></pre>
 					</section>
+
+
+
+					<section>
+						<h2>Example</h2>
+						<h3>reveal.js speaker notes</h3>
+
+						<img src="img/speaker-notes.png" class="noborder fragment" />
+					</section>
 				</section>
 
 				<section class="summary">
@@ -92,9 +113,15 @@ $('#my-frame').get(0).postMessage('Howdy', '*');
 
 
 				<section>
+
+					<section>
+						<h2>Same origin windows</h2>
+						<img src="img/win-same-origin.png" class="noborder" />
+					</section>
+
 					<section>
 						<h2>LocalStorage</h2>
-						<h3>+ storage events</h3>
+						<h3 class="fragment">+ storage events</h3>
 					</section>
 
 					<section>
@@ -115,21 +142,24 @@ window.addEventListener("storage", function(e){
 
           <section>
 
+			<h2>Example</h2>
+			<h3>reveal.js speaker notes</h3>
+
 <pre><code>if(window.top === window){
 
-// store the new slide index
-Reveal.addEventListener('slidechanged', function(e) {
-  var send = e.indexh + ',' + e.indexv;
-  localStorage.setItem('rslide',send);
-});
+  // store the new slide index
+  Reveal.addEventListener('slidechanged', function(e) {
+    var send = e.indexh + ',' + e.indexv;
+    localStorage.setItem('rslide',send);
+  });  
 
-// restore 
-window.addEventListener("storage", function(e){
-  if(e.key == 'rslide'){
-    var vals = e.newValue.split(',').map(parseFloat);
-    Reveal.slide(vals[0],vals[1]);
-  }
-}, false);
+  // restore 
+  window.addEventListener("storage", function(e){
+    if(e.key == 'rslide'){
+      var vals = e.newValue.split(',').map(parseFloat);
+      Reveal.slide(vals[0],vals[1]);
+    }
+  }, false);
 
 }</code></pre>
 
@@ -233,6 +263,14 @@ $('#photo').on('change', function(event){
 
 				<section>
 					<section>
+						<h1>Realtime</h1>
+						<ul>
+							<li>HTTP</li>
+							<li>web servers</li>
+						</ul>
+
+					</section>
+					<section>
 						<h1>webRTC</h1>
 					</section>
 
@@ -298,9 +336,11 @@ $('#photo').on('change', function(event){
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
 					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+			       // { src: 'socket.io/socket.io.js', async: true },
+			       // { src: 'plugin/notes-server/client.js', async: true }
 				]
 			});
 
