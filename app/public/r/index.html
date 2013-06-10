@@ -140,7 +140,7 @@ window.addEventListener("storage", function(e){
 
 					</section>
 
-        <section>
+		<section>
 
 			<h2>Example</h2>
 			<h3>reveal.js speaker notes</h3>
@@ -149,21 +149,21 @@ window.addEventListener("storage", function(e){
 
   // store the new slide index
   Reveal.addEventListener('slidechanged', function(e) {
-    var send = e.indexh + ',' + e.indexv;
-    localStorage.setItem('rslide',send);
+	var send = e.indexh + ',' + e.indexv;
+	localStorage.setItem('rslide',send);
   });  
 
   // restore 
   window.addEventListener("storage", function(e){
-    if(e.key == 'rslide'){
-      var vals = e.newValue.split(',').map(parseFloat);
-      Reveal.slide(vals[0],vals[1]);
-    }
+	if(e.key == 'rslide'){
+	  var vals = e.newValue.split(',').map(parseFloat);
+	  Reveal.slide(vals[0],vals[1]);
+	}
   }, false);
 
 }</code></pre>
 
-          </section>  
+		  </section>  
 
 
 		</section>
@@ -177,7 +177,7 @@ window.addEventListener("storage", function(e){
 		</section>
 
 
-        <section>
+		<section>
 
 			<section>
 				<h2>Cross device</h2>
@@ -200,46 +200,46 @@ ws.onmessage = function(event){
 ws.send("Hello")
 
 </code></pre>
-          </section>
+		  </section>
 
 
-          <section data-state="demo-1">
-            <h2>Demo</h2>
-          </section>
+		  <section data-state="demo-1">
+			<h2>Demo</h2>
+		  </section>
 
-          <section>
-          	<h2>'{"x":42,"y":42}'</h2>
-          </section>
+		  <section>
+			<h2>'{"x":42,"y":42}'</h2>
+		  </section>
 
-          <section>
+		  <section>
 
 <pre><code>&lt;input id="photo" type="file" accept="image/*" capture="camera" /&gt;</code></pre>
 
 <pre><code>var client = new BinaryClient('ws://localhost:9000');
 
 $('#photo').on('change', function(event){
-    var file = event.target.files[0];
-    client.send(file);
+	var file = event.target.files[0];
+	client.send(file);
 });</code></pre>
 
 <p><small>(BinaryClient - <a href="http://binaryjs.com/">binaryjs.com</a>)</small></p>
 
-          </section>
+		  </section>
 
-          <section data-state="demo-2">
-            <h2>Demo</h2>
-          </section>
+		  <section data-state="demo-2">
+			<h2>Demo</h2>
+		  </section>
 
-        </section>
+		</section>
 
 
-        <section class="summary">
-          <h2>window</h2>
-          <hr/><h2>.postMessage</h2>
-          <hr/><h2>storage events</h2>
-          <hr/><h2>WebSockets (+ binaryjs)</h2>
-          <!--hr/><h2>webRTC</h2> -->
-        </section>
+		<section class="summary">
+		  <h2>window</h2>
+		  <hr/><h2>.postMessage</h2>
+		  <hr/><h2>storage events</h2>
+		  <hr/><h2>WebSockets (+ binaryjs)</h2>
+		  <!--hr/><h2>webRTC</h2> -->
+		</section>
 
 		<section>
 			<section>
@@ -255,26 +255,26 @@ $('#photo').on('change', function(event){
 			</section>
 
 			<section>
-	            <ul>
-	              <li>RTCPeerConnection</li>
-	              <li>RTCDataChannel</li>
-	              <li>MediaStream</li>
-	            </ul>
+				<ul>
+				  <li>RTCPeerConnection</li>
+				  <li>RTCDataChannel</li>
+				  <li>MediaStream</li>
+				</ul>
 			</section>
 
-          <section data-state="demo-3">
-            <h2>Demo</h2>
-          </section>
+			<section data-state="demo-3">
+				<h2>Demo</h2>
+			</section>
 		</section>
 
 
-        <section class="summary">
-          <h2>window</h2>
-          <hr/><h2>.postMessage</h2>
-          <hr/><h2>storage events</h2>
-          <hr/><h2>WebSockets (+ binaryjs)</h2>
-          <hr/><h2>webRTC</h2>
-        </section>
+		<section class="summary">
+			<h2>window</h2>
+			<hr/><h2>.postMessage</h2>
+			<hr/><h2>storage events</h2>
+			<hr/><h2>WebSockets (+ binaryjs)</h2>
+			<hr/><h2>webRTC</h2>
+		</section>
 
 
 
@@ -316,8 +316,8 @@ $('#photo').on('change', function(event){
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
 					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-			       // { src: 'socket.io/socket.io.js', async: true },
-			       // { src: 'plugin/notes-server/client.js', async: true }
+				   // { src: 'socket.io/socket.io.js', async: true },
+				   // { src: 'plugin/notes-server/client.js', async: true }
 				]
 			});
 
@@ -365,81 +365,81 @@ $('#photo').on('change', function(event){
 
 		<video id="rtc-video" autoplay="autoplay"></video>
 
-	    <script type="text/javascript" src="http://localhost:3000/libs.js"></script>
-	    <script type="text/javascript">
-	        var shoutHostname = 'localhost';
+		<script type="text/javascript" src="http://localhost:3000/libs.js"></script>
+		<script type="text/javascript">
+			var shoutHostname = 'localhost';
 
-	        rtc.connect('ws://'+shoutHostname+':3003','my-room');
+			rtc.connect('ws://'+shoutHostname+':3003','my-room');
 
-	        var streams = {
-	            socketio:io.connect('http://' + shoutHostname + ':3001'),
-	            binary:BinaryClient('ws://'+shoutHostname+':3002'),
-	            rtc: rtc
-	        };
+			var streams = {
+				socketio:io.connect('http://' + shoutHostname + ':3001'),
+				binary:BinaryClient('ws://'+shoutHostname+':3002'),
+				rtc: rtc
+			};
 
 			// show status	        
 			var statusses = {
-	            socketio:document.getElementById('connection-status-socketio'),
-	            binary:document.getElementById('connection-status-binary'),
-	            rtc:document.getElementById('connection-status-rtc')
-	        };
+				socketio:document.getElementById('connection-status-socketio'),
+				binary:document.getElementById('connection-status-binary'),
+				rtc:document.getElementById('connection-status-rtc')
+			};
 
-	        streams.binary.on('close', function(){
-	        	statusses.binary.className='';
-	        });
-	        streams.binary.on('open', function(){
-	        	statusses.binary.className='ok';
-	        });
+			streams.binary.on('close', function(){
+				statusses.binary.className='';
+			});
+			streams.binary.on('open', function(){
+				statusses.binary.className='ok';
+			});
 
-	        streams.socketio.on('disconnect', function(){
-	        	statusses.socketio.className='';
-	        });
-	        streams.socketio.on('connect', function(){
-	        	statusses.socketio.className='ok';
-	        });
+			streams.socketio.on('disconnect', function(){
+				statusses.socketio.className='';
+			});
+			streams.socketio.on('connect', function(){
+				statusses.socketio.className='ok';
+			});
 
 
-	        streams.rtc.on('close_stream', function(e, i){
-	        	console.log(e, i);
-	        	statusses.rtc.className='';
-	        });
+			streams.rtc.on('close_stream', function(e, i){
+				console.log(e, i);
+				statusses.rtc.className='';
+			});
 
-	        streams.rtc.on('connect', function(){
-	        	statusses.rtc.className='ok';
-	        });
+			streams.rtc.on('connect', function(){
+				statusses.rtc.className='ok';
+			});
 
-	    </script>
+		</script>
 
 
 
 		<script src="js/jquery.js"></script>
 
 
-	    <div id="image-show"></div>
+		<div id="image-show"></div>
 		<div id="n4"><canvas width="216" height="362"></canvas></div>
 
-	    <script type="text/javascript">
-	    	// display content things
+		<script type="text/javascript">
+			// display content things
 
-	    	function activeSlide(key){
-	    		// .contains, but whatever
-	    		return document.getElementsByTagName('html')[0].className.indexOf(key) != -1;
-	    	}
+			function activeSlide(key){
+				// .contains, but whatever
+				return document.getElementsByTagName('html')[0].className.indexOf(key) != -1;
+			}
 
 
 
-	    	var ishow = document.getElementById('image-show');
-	    	var n4 = document.getElementById('n4');
+			var ishow = document.getElementById('image-show');
+			var n4 = document.getElementById('n4');
 			var canvas = n4.childNodes[0];
 			var ctx = canvas.getContext('2d');
 
-	    	streams.socketio.on('message', function (message, callback) {
+			streams.socketio.on('message', function (message, callback) {
 
-		    	if(activeSlide('demo-1')){
+				if(activeSlide('demo-1')){
 
 
 
-		    		// console.log("OKAYE", message);
+					// console.log("OKAYE", message);
 
 
 					var js = JSON.parse(message);
@@ -452,7 +452,7 @@ $('#photo').on('change', function(event){
 
 					} else {
 
-		    			// console.log("OKAYE", message);
+						// console.log("OKAYE", message);
 
 						ctx.fillStyle = '#000000';
 						ctx.beginPath();
@@ -462,22 +462,22 @@ $('#photo').on('change', function(event){
 					}
 
 
-		    	}
+				}
 
-	    	});
+			});
 
-	    	var video = document.getElementById('rtc-video');
+			var video = document.getElementById('rtc-video');
 
-	    	streams.rtc.on('add remote stream', function(stream, socketId) {
-	    		console.log("|NEW STREAM");
-	    		// if(activeSlide('demo-3')){
-    			rtc.attachStream(stream, 'rtc-video');
+			streams.rtc.on('add remote stream', function(stream, socketId) {
+				console.log("|NEW STREAM");
+				// if(activeSlide('demo-3')){
+				rtc.attachStream(stream, 'rtc-video');
 
-    			// setTimeout(function(){
+				// setTimeout(function(){
 				video.className = 'active';	
-    			// },1500);
-    			
-	    		// }
+				// },1500);
+				
+				// }
 			});
 
 
@@ -516,15 +516,15 @@ $('#photo').on('change', function(event){
 
 
 				// console.log("STREAM");
-	        });
+			});
 
 
-	    	// clean up our stuff
-	    	Reveal.addEventListener( 'slidechanged', function() {
-	    		// remove the classname
-	    		n4.className = '';
-	    		ishow.className = ''
-	    		ishow.style.backgroundImage = '';
+			// clean up our stuff
+			Reveal.addEventListener( 'slidechanged', function() {
+				// remove the classname
+				n4.className = '';
+				ishow.className = ''
+				ishow.style.backgroundImage = '';
 			});
 
 
@@ -548,7 +548,7 @@ $('#photo').on('change', function(event){
 			}
 
 
-	    </script>
+		</script>
 
 
 
