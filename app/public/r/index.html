@@ -100,6 +100,7 @@ $('#my-frame').get(0).postMessage('Howdy', '*');
 
 						<img src="img/speaker-notes.png" class="noborder fragment" />
 					</section>
+
 				</section>
 
 				<section class="summary">
@@ -166,12 +167,79 @@ window.addEventListener("storage", function(e){
 		  </section>  
 
 
+
+		<section>
+			<h2>With .postMessage?</h2>
+			<h3>shaker.io</h3>
+			<img src="img/shaker.png" class="noborder fragment" />
+		</section>
+
+
 		</section>
 
 		<section class="summary">
 			<h2>window</h2>
 			<hr/><h2>.postMessage</h2>
 			<hr/><h2>storage events</h2>
+			<!-- <hr/><h2>websockets (+binary)</h2>
+			<hr/><h2>webrtc</h2> -->
+		</section>
+
+
+		<section>
+
+			<section>
+				<h2>Cross Browsers</h2>
+
+				<img src="img/dd-all.png" class="noborder" />
+			</section>
+
+
+			<section>
+				<h2>Drag and Drop</h2>
+				<!-- <h3 class="fragment">DataTransfer</h3> -->
+			</section>
+
+
+			<section>
+<pre><code>// &lt;div draggable="true"&gt;&lt;/div&gt;
+
+function dragStart(e) {
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', this.innerText);
+}
+
+function dragOver(e) { e.preventDefault() }
+
+function drop(e) {
+  e.stopPropagation();
+  var text = e.dataTransfer.getData('text/plain');
+  alert("dropped - " + text);
+}
+
+domElement.addEventListener('dragstart', dragStart, false);
+domElement.addEventListener('dragover', dragOver, false);
+domElement.addEventListener('drop', drop, false);</code></pre>
+			</section>
+
+
+			<section>
+				<h2>Demo</h2>
+				<h3><a href="http://five.tiddlywiki.com/empty.html">&nbsp;TiddlyWiki&nbsp;</a></h3>
+				<p draggable="true" id="dragtext">TiddlyWiki is designed to fit around your brain, providing a better way of managing the overflow than traditional documents and emails. The fundamental idea is that information is more useful and reusable if we cut it up into the smallest semantically meaningful chunks – tiddlers – and give them titles so that they can be structured with links, tags and macros. TiddlyWiki aims to provide a fluid interface for working with tiddlers, allowing them to be aggregated and composed into longer narratives.
+				</p>
+			</section>
+
+
+		</section>
+
+
+
+		<section class="summary">
+			<h2>window</h2>
+			<hr/><h2>.postMessage</h2>
+			<hr/><h2>storage events</h2>
+			<hr/><h2>drag and drop</h2>
 			<!-- <hr/><h2>websockets (+binary)</h2>
 			<hr/><h2>webrtc</h2> -->
 		</section>
@@ -212,6 +280,10 @@ ws.send("Hello")
 		  </section>
 
 		  <section>
+			<h2>ws.send(&lt;Blob&gt;)</h2>
+		  </section>
+
+		  <section>
 
 <pre><code>&lt;input id="photo" type="file" accept="image/*" capture="camera" /&gt;</code></pre>
 
@@ -230,15 +302,44 @@ $('#photo').on('change', function(event){
 			<h2>Demo</h2>
 		  </section>
 
+
+
+		  <section>
+		  	<h2>Junkyard Jumbotron</h2>
+
+			<img src="img/junk.jpg"  class="noborder" />
+
+		  </section>
+
+		  <section>
+		  	<h2>Chrome Racer</h2>
+
+			<img src="img/racer.jpg"  class="noborder" />
+
+		  </section>
+
+		  <section>
+
+			<img src="img/racer-play.jpg"  class="noborder" />
+
+		  </section>
+
+		  <section>
+
+			<img src="img/racer-code.png"  class="noborder" />
+
+		  </section>
+
 		</section>
 
 
 		<section class="summary">
-		  <h2>window</h2>
-		  <hr/><h2>.postMessage</h2>
-		  <hr/><h2>storage events</h2>
-		  <hr/><h2>WebSockets (+ binaryjs)</h2>
-		  <!--hr/><h2>webRTC</h2> -->
+			<h2>window</h2>
+			<hr/><h2>.postMessage</h2>
+			<hr/><h2>storage events</h2>
+			<hr/><h2>drag and drop</h2>
+			<hr/><h2>WebSockets (+ binaryjs)</h2>
+			<!--hr/><h2>webRTC</h2> -->
 		</section>
 
 		<section>
@@ -265,6 +366,24 @@ $('#photo').on('change', function(event){
 			<section data-state="demo-3">
 				<h2>Demo</h2>
 			</section>
+
+			<section>
+				<h2>Inspiration</h2>
+				<!-- INSPIRATION -->
+			</section>
+
+			<section>
+				<img src="img/rtc-peercdn.png" class="noborder"/>
+			</section>
+
+			<section>
+				<img src="img/rtc-towtruck.png" class="noborder"/>
+			</section>
+
+			<section>
+				<img src="img/rtc-twillio.png" class="noborder"/>
+			</section>
+
 		</section>
 
 
@@ -272,6 +391,7 @@ $('#photo').on('change', function(event){
 			<h2>window</h2>
 			<hr/><h2>.postMessage</h2>
 			<hr/><h2>storage events</h2>
+			<hr/><h2>drag and drop</h2>
 			<hr/><h2>WebSockets (+ binaryjs)</h2>
 			<hr/><h2>webRTC</h2>
 		</section>
@@ -415,10 +535,39 @@ $('#photo').on('change', function(event){
 		<script src="js/jquery.js"></script>
 
 
-		<div id="image-show"></div>
-		<div id="n4"><canvas width="216" height="362"></canvas></div>
+		<div id="image-show" style="display:none"></div>
+		<div id="n4" style="display:none"><canvas width="216" height="362"></canvas></div>
 
 		<script type="text/javascript">
+
+		// drag drop
+
+		function dragStart(e) {
+		  // Target (this) element is the source node.
+		  this.style.opacity = '0.4';
+		  e.dataTransfer.effectAllowed = 'move';
+		  e.dataTransfer.setData('text/plain', this.innerText);
+		}
+
+		function dragOver(e) {
+		  e.preventDefault()
+		}
+
+		function drop(e) {
+		  e.stopPropagation();
+		  var text = e.dataTransfer.getData('text/plain');
+		  alert("dropped - " + text);
+		}
+
+		dragtext.addEventListener('dragstart', dragStart, false);
+		dragtext.addEventListener('dragover', dragOver, false);
+		dragtext.addEventListener('drop', drop, false);
+
+
+
+
+
+
 			// display content things
 
 			function activeSlide(key){
@@ -445,6 +594,8 @@ $('#photo').on('change', function(event){
 					var js = JSON.parse(message);
 
 					if(typeof(js.x) === 'undefined'){
+
+						n4.style.display = 'block';
 
 						n4.className = 'active';
 						ctx.fillStyle = '#f5f5f5';
@@ -473,10 +624,12 @@ $('#photo').on('change', function(event){
 				// if(activeSlide('demo-3')){
 				rtc.attachStream(stream, 'rtc-video');
 
+				// video.style.display='block'
+
 				// setTimeout(function(){
-				video.className = 'active';	
-				// },1500);
-				
+					video.className = 'active';	
+				// },100);
+				// 
 				// }
 			});
 
@@ -488,7 +641,11 @@ $('#photo').on('change', function(event){
 
 			rtc.on('remove_peer_connected', function(data) {
 				console.log("----CLOSE");
-				video.className = ''
+				video.className = '';
+
+				// setTimeout(function(){
+				// 	video.style.display='none'
+				// },500);
 
 			})
 
@@ -503,7 +660,7 @@ $('#photo').on('change', function(event){
 
 			streams.binary.on('stream', function(e){
 
-
+				ishow.style.display = 'block';
 				var parts = [];
 				e.on('data', function(d){
 						parts.push(d);
@@ -523,8 +680,10 @@ $('#photo').on('change', function(event){
 			Reveal.addEventListener( 'slidechanged', function() {
 				// remove the classname
 				n4.className = '';
-				ishow.className = ''
+				n4.style.display = 'none';
+				ishow.className = '';
 				ishow.style.backgroundImage = '';
+				ishow.style.display = 'none';
 			});
 
 
